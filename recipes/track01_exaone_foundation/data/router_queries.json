@@ -1,0 +1,7 @@
+[
+  {"id": "chitchat", "query": "안녕! 한 문장으로 답해줘.", "has_context": false, "has_tools": false},
+  {"id": "arith", "query": "기차 A 60km/h 9시 출발, B 90km/h 9:30 출발. 만나는 시각을 계산해줘.", "has_context": false, "has_tools": false},
+  {"id": "code_qa", "query": "이 함수 버그 설명:\ndef avg(nums):\n    s=0\n    for n in nums: s=n\n    return s/len(nums)", "has_context": false, "has_tools": false},
+  {"id": "extract_json", "query": "회사명/직책/연봉만 JSON 으로: 홍길동은 ACME 백엔드, 연봉 7천만원.", "has_context": false, "has_tools": false, "force_json": true},
+  {"id": "rag_followup", "query": "위 검색 결과로 한국 휴일 정책을 세 줄로 요약해줘.", "has_context": true, "has_tools": false}
+]

@@ -1,0 +1,8 @@
+# (en) Legacy pin list — prefer pyproject.toml + `uv sync --project implementations/crewai`.
+# (kr) 레거시 핀 목록 — pyproject.toml + `uv sync --project implementations/crewai` 권장.
+# (en) Optional deps for implementations/crewai only (isolated uv venv).
+# (kr) implementations/crewai 전용 선택 의존성(격리 uv venv).
+#
+# Tested with cookbook submodule pin submodules/crewai @ 2148c7e (2026-05-28).
+# Pip package may trail submodule; 0.203.x verified for run_crew.py / spike_llm.py.
+crewai>=0.130,<1

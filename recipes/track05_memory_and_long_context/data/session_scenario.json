@@ -1,0 +1,8 @@
+{
+  "session_id": "track05-demo",
+  "tool_calls": [
+    {"tool": "safe_lookup", "args": {"topic": "refund policy"}},
+    {"tool": "safe_lookup", "args": {"topic": "shipping delay"}},
+    {"tool": "read_session_brief", "args": {"max_entries": 5}}
+  ]
+}

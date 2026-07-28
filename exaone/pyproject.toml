@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "exaone"
+version = "0.1.0"
+description = "EXAONE / K-EXAONE LLM agent toolkit"
+requires-python = ">=3.9"
+dependencies = [
+    "openai>=2.26.0",
+    "requests>=2.28.0",
+    "httpx>=0.25.0",
+    "jsonschema>=4.20.0",
+    "langchain-core>=0.3.0",
+    "tiktoken>=0.7.0",
+]
+
+[tool.setuptools]
+package-dir = {"" = ".."}
+packages = [
+    "exaone",
+    "exaone.agents",
+    "exaone.context_management",
+    "exaone.llm",
+    "exaone.memory",
+    "exaone.observability",
+    "exaone.output",
+    "exaone.retrieval",
+    "exaone.tools",
+]

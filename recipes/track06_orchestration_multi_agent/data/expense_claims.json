@@ -1,0 +1,39 @@
+{
+  "title": "2026 Q2 출장비 정산",
+  "currency": "KRW",
+  "vat_rate": 0.1,
+  "claims": [
+    {
+      "name": "김대리",
+      "items": [
+        {"label": "호텔", "qty": 3, "unit_price": 137500},
+        {"label": "식대", "qty": 5, "unit_price": 23800},
+        {"label": "KTX 왕복", "qty": 1, "unit_price": 119600}
+      ]
+    },
+    {
+      "name": "이과장",
+      "items": [
+        {"label": "호텔", "qty": 4, "unit_price": 158000},
+        {"label": "식대", "qty": 6, "unit_price": 23800},
+        {"label": "택시", "qty": 7, "unit_price": 18400}
+      ]
+    },
+    {
+      "name": "박부장",
+      "items": [
+        {"label": "호텔", "qty": 2, "unit_price": 214000},
+        {"label": "식대", "qty": 4, "unit_price": 23800},
+        {"label": "렌터카", "qty": 3, "unit_price": 93500}
+      ]
+    },
+    {
+      "name": "최사원",
+      "items": [
+        {"label": "호텔", "qty": 1, "unit_price": 189000},
+        {"label": "식대", "qty": 3, "unit_price": 23800},
+        {"label": "버스", "qty": 12, "unit_price": 2400}
+      ]
+    }
+  ]
+}

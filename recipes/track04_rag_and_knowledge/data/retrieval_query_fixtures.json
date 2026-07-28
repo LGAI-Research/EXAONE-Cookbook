@@ -1,0 +1,62 @@
+[
+  {
+    "id": "q01",
+    "query": "What is chromatin?",
+    "top_k": 5,
+    "group": "semantic"
+  },
+  {
+    "id": "q02",
+    "query": "How long is the River Thames?",
+    "top_k": 5,
+    "group": "semantic"
+  },
+  {
+    "id": "q03",
+    "query": "What is the definition of integrity?",
+    "top_k": 5,
+    "group": "semantic"
+  },
+  {
+    "id": "q04",
+    "query": "What is radon?",
+    "top_k": 5,
+    "group": "semantic"
+  },
+  {
+    "id": "q05",
+    "query": "What is an extrinsic semiconductor?",
+    "top_k": 5,
+    "group": "semantic"
+  },
+  {
+    "id": "q06",
+    "query": "How much does a Beagle puppy cost?",
+    "top_k": 5,
+    "group": "semantic"
+  },
+  {
+    "id": "q07",
+    "query": "Who was Ronald Reagan?",
+    "top_k": 5,
+    "group": "entity"
+  },
+  {
+    "id": "q08",
+    "query": "Tell me about the Reserve Bank of Australia",
+    "top_k": 5,
+    "group": "entity"
+  },
+  {
+    "id": "q09",
+    "query": "What is Securency?",
+    "top_k": 5,
+    "group": "entity"
+  },
+  {
+    "id": "q10",
+    "query": "zzzzzzzz completely unrelated xyzzy plugh 99999",
+    "top_k": 5,
+    "group": "0-hit"
+  }
+]

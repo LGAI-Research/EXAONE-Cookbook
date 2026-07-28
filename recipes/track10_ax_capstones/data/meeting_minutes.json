@@ -1,0 +1,15 @@
+{
+  "schema_note": "See track01 action_items.json (01_exaone_foundation_lab Session 3) for full schema",
+  "samples": [
+    {
+      "id": "m01",
+      "minutes": "주간 백엔드 동기화 — 이서연이 idempotency 패치를 금요일까지 머지. 이수민은 p95 지연 분석을 월요일까지.",
+      "expected_action_count": 2
+    },
+    {
+      "id": "m02",
+      "minutes": "프로덕트 위클리 — 디자인팀은 화요일 와이어프레임 리뷰. 이동현은 금요일까지 프로토타입.",
+      "expected_action_count": 2
+    }
+  ]
+}

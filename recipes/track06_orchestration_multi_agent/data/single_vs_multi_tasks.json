@@ -1,0 +1,17 @@
+[
+  {
+    "id": "simple_faq",
+    "query": "연차 신청은 어디서 하나요?",
+    "notes": "단일 ToolAgent 로 충분 — 멀티 롤 오버헤드만 증가"
+  },
+  {
+    "id": "policy_memo",
+    "query": "재택·VPN·연차·보안 보고를 한 페이지 온보딩 메모로 정리하고 검수해줘.",
+    "notes": "planner→executor→critic 분리가 유리"
+  },
+  {
+    "id": "fx_two_currency",
+    "query": "100달러랑 50유로를 원화로 합쳐서 알려줘.",
+    "notes": "단일 agent + 도구 2회 — Track 02 와 동일"
+  }
+]

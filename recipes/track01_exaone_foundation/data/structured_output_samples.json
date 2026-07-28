@@ -1,0 +1,5 @@
+[
+  {"id": "clean", "raw": "{\"name\":\"홍길동\",\"age\":30}"},
+  {"id": "fenced", "raw": "결과:\n```json\n{\"name\":\"홍길동\",\"age\":30}\n```"},
+  {"id": "trailing_comma", "raw": "{\"name\":\"홍길동\",\"age\":30,}"}
+]

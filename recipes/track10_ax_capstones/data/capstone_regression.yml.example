@@ -1,0 +1,28 @@
+# (en) Example GitHub Actions workflow — copy to .github/workflows/ and adjust secrets.
+# (kr) GitHub Actions 예시 — .github/workflows/ 로 복사 후 시크릿을 맞추세요.
+name: capstone-regression
+
+on:
+  pull_request:
+    paths:
+      - "recipes/track10_ax_capstones/**"
+      - "eval/**"
+      - "exaone/**"
+
+jobs:
+  golden:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install deps
+        run: pip install -r requirements.txt
+      - name: Capstone golden (offline M1/M6/M9)
+        run: python recipes/track10_ax_capstones/capstone_runner.py --capstone all --write-report
+      - name: Upload report
+        uses: actions/upload-artifact@v4
+        with:
+          name: capstone-runner-report
+          path: recipes/track10_ax_capstones/_out/07/runner_report.json

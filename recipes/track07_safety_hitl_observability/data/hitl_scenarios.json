@@ -1,0 +1,22 @@
+[
+  {
+    "id": "lookup_only",
+    "query": "환불 정책 알려줘 (refund)",
+    "expect_tool": "safe_lookup",
+    "auto_approve": true
+  },
+  {
+    "id": "publish_approved",
+    "query": "Please use sensitive_publish to post title \"Q2 outage notice\" and body \"Service restored at 14:00 KST.\"",
+    "expect_tool": "sensitive_publish",
+    "stdin_response": "yes",
+    "auto_approve": false
+  },
+  {
+    "id": "publish_rejected",
+    "query": "Publish title \"Leak\" body \"Confidential\" with sensitive_publish now.",
+    "expect_tool": "sensitive_publish",
+    "stdin_response": "n",
+    "auto_approve": false
+  }
+]

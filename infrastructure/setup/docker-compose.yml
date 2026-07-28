@@ -1,0 +1,45 @@
+# 공통 셋업: db(Postgres+pgvector) + embedding(커스텀 FastAPI). infrastructure/setup 에서 실행 시 프로젝트 루트 = ../..
+# 사용: cd infrastructure/setup && docker compose up -d --build db embedding
+
+services:
+  db:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_USER: exaone
+      POSTGRES_PASSWORD: exaone
+      POSTGRES_DB: exaone
+    ports:
+      # 호스트 포트는 env 로 변경 가능 (기본 5432). 다른 Postgres 와 충돌 시 .env 에 POSTGRES_HOST_PORT=5433 등.
+      - "${POSTGRES_HOST_PORT:-5432}:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U exaone -d exaone"]
+      interval: 2s
+      timeout: 5s
+      retries: 10
+
+  embedding:
+    build:
+      context: ../embedding
+      dockerfile: Dockerfile
+    environment:
+      EMBEDDING_MODEL: intfloat/multilingual-e5-small
+      # step1_downloads.sh 가 HF_HUB_CACHE=_temp 로 받아서 `_temp/models--...` (flat 구조).
+      # HF_HOME 은 `$HF_HOME/hub/models--...` (hub 서브폴더) 구조를 기대하므로 여기선 HF_HUB_CACHE 사용.
+      HF_HUB_CACHE: /model_cache
+      TRANSFORMERS_OFFLINE: "1"
+      HF_DATASETS_OFFLINE: "1"
+    volumes:
+      # step1_downloads.sh 가 프로젝트 루트 `_temp/` 에 TEI 모델을 받으므로 기본값도 이를 따름.
+      # docker-compose 는 `infrastructure/setup/` 에서 실행되어 `../../_temp` = 프로젝트 루트 `_temp/` 로 해석.
+      # 다른 경로를 쓰려면 .env 에 HF_CACHE_DIR=<절대경로> 지정.
+      - ${HF_CACHE_DIR:-../../_temp}:/model_cache
+    ports:
+      # 호스트 포트는 env 로 변경 가능 (기본 8000). 컨테이너 내부는 80 고정.
+      - "${EMBEDDING_HOST_PORT:-8000}:80"
+    healthcheck:
+      # 컨테이너에 curl 이 없음 — 항상 설치된 python 으로 /health 치기.
+      test: ["CMD-SHELL", "python -c \"import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://localhost:80/health', timeout=3).status==200 else 1)\""]
+      interval: 10s
+      timeout: 30s
+      retries: 10
+      start_period: 60s

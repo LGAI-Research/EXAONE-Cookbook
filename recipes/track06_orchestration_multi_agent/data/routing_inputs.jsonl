@@ -1,0 +1,26 @@
+{"id": "r01", "expected_profile": "faq", "query": "연차는 HR 포털에서 어떻게 신청하나요?", "has_tools": false, "has_context": false}
+{"id": "r02", "expected_profile": "faq", "query": "재택근무 주 몇 일까지 가능한가요?", "has_tools": false, "has_context": false}
+{"id": "r03", "expected_profile": "faq", "query": "VPN 쓸 때 2FA 꼭 해야 하나요?", "has_tools": false, "has_context": false}
+{"id": "r04", "expected_profile": "data_analyst", "query": "지난 분기 CSV 매출에서 지역별 Top3 와 합계를 표로 정리해줘.", "has_tools": true, "has_context": false}
+{"id": "r05", "expected_profile": "data_analyst", "query": "이 피벗 결과가 이상한데 null 비율이랑 평균 매출을 계산해줘.", "has_tools": true, "has_context": false}
+{"id": "r06", "expected_profile": "code_review", "query": "아래 PR diff 에서 SQL injection 위험 있는지 봐줘.\n```diff\n+ query = f\"SELECT * FROM users WHERE id={user_id}\"\n```", "has_tools": false, "has_context": false}
+{"id": "r07", "expected_profile": "code_review", "query": "이 파이썬 함수에 race condition 있을까?\n```python\ncounter = 0\ndef inc(): global counter; counter += 1\n```", "has_tools": false, "has_context": false}
+{"id": "r08", "expected_profile": "general", "query": "안녕하세요, 오늘 날씨 어때요?", "has_tools": false, "has_context": false}
+{"id": "r09", "expected_profile": "structured", "query": "다음 회의록을 JSON action_items 배열만 출력해. 항목은 owner, task, due_date.", "has_tools": false, "has_context": false}
+{"id": "r10", "expected_profile": "faq", "query": "보안 사고 나면 어디로 연락해야 해?", "has_tools": false, "has_context": false}
+{"id": "r11", "expected_profile": "data_analyst", "query": "고객 이탈률 churn 을 월별로 그래프 데이터 형태로 요약해줘.", "has_tools": true, "has_context": false}
+{"id": "r12", "expected_profile": "code_review", "query": "테스트 커버리지 40%인 모듈 — 어떤 케이스부터 추가할지 우선순위 제안해줘.", "has_tools": false, "has_context": false}
+{"id": "r13", "expected_profile": "general", "query": "위 검색 결과를 바탕으로 한국어로 3문장 요약해줘.", "has_tools": false, "has_context": true}
+{"id": "r14", "expected_profile": "faq", "query": "사무실 출근 권장 빈도가 정책에 있나요?", "has_tools": false, "has_context": false}
+{"id": "r15", "expected_profile": "structured", "query": "다음 표를 {\"rows\":[{\"name\":str,\"score\":number}]} JSON 으로만 답해.", "has_tools": false, "has_context": false}
+{"id": "r16", "expected_profile": "data_analyst", "query": "두 테이블 join 키가 맞는지 검증하는 SQL 초안 작성해줘.", "has_tools": true, "has_context": false}
+{"id": "r17", "expected_profile": "code_review", "query": "async 함수에서 blocking requests.get 쓰는 부분 리팩터 제안해줘.", "has_tools": false, "has_context": false}
+{"id": "r18", "expected_profile": "general", "query": "LG AI 연구소가 뭐 하는 곳이야?", "has_tools": false, "has_context": false}
+{"id": "r19", "expected_profile": "faq", "query": "VPN 없이 사내망 접속하면 어떻게 되나요?", "has_tools": false, "has_context": false}
+{"id": "r20", "expected_profile": "data_analyst", "query": "엑셀 수식 대신 파이썬으로 피벗테이블 만드는 최소 예제 보여줘.", "has_tools": true, "has_context": false}
+{"id": "r21", "expected_profile": "faq", "query": "법인카드는 어떻게 발급받나요?", "has_tools": false, "has_context": false}
+{"id": "r22", "expected_profile": "faq", "query": "입사 첫날 무엇부터 하면 되나요?", "has_tools": false, "has_context": false}
+{"id": "r23", "expected_profile": "data_analyst", "query": "이번 달 지출이 예년보다 많은지 비교해줘.", "has_tools": false, "has_context": false}
+{"id": "r24", "expected_profile": "data_analyst", "query": "우리 팀 인원 대비 회의 시간이 적정한지 따져줘.", "has_tools": false, "has_context": false}
+{"id": "r25", "expected_profile": "code_review", "query": "이 로그인 처리 부분이 안전한지 봐줘.", "has_tools": false, "has_context": false}
+{"id": "r26", "expected_profile": "code_review", "query": "이 모듈을 더 읽기 좋게 바꾸려면 어떻게 할까?", "has_tools": false, "has_context": false}

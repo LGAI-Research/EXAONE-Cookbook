@@ -1,0 +1,96 @@
+# =============================================================================
+# EXAONE Cookbook — open-source publish tree
+# =============================================================================
+
+# Secrets (never commit)
+.env
+.env.*
+!.env.example
+!**/.env.example
+.envrc
+
+# Upstream OSS clones (user-managed; see implementations/README.md)
+submodules/*
+!submodules/README.md
+
+# Local demo apps (not part of this published cookbook)
+app/
+
+# Local caches & large downloads (infrastructure/setup)
+_temp/
+_dataset/
+
+# Runtime outputs (may include paths or API snippets)
+_out/
+recipes/**/_out/
+implementations/**/_out/
+implementations/nanoclaw/vendor/
+implementations/hermes-agent/.hermes/
+eval/reports/
+
+# =============================================================================
+# Python
+# =============================================================================
+__pycache__/
+*.py[codz]
+*$py.class
+*.so
+.Python
+build/
+dist/
+wheels/
+*.egg-info/
+*.egg
+.eggs/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Test / type / lint caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.hypothesis/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+.cache
+coverage.xml
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Packaging / tool locals
+.pdm-python
+.pdm-build/
+.pixi/
+__pypackages__/
+.pypirc
+
+# =============================================================================
+# Node (if present under demos / docs tooling)
+# =============================================================================
+node_modules/
+
+# =============================================================================
+# IDEs & OS
+# =============================================================================
+.idea/
+.vscode/
+.cursor/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Local scratch
+sandbox/
+*.log

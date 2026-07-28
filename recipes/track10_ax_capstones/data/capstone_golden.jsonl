@@ -1,0 +1,27 @@
+{"id": "c-g01", "category": "exact", "query": "서울 인구 숫자만 JSON으로", "expected_answer": {"city": "seoul", "population": "9700000"}, "required_keys": ["city", "population"], "capstone": "all"}
+{"id": "c-g02", "category": "exact", "query": "부산 코드는 BUS", "expected_answer": {"code": "BUS"}, "required_keys": ["code"], "capstone": "all"}
+{"id": "c-g03", "category": "abstain", "query": "오늘 날씨 알려줘 (도구 없음)", "expected_no_tools": true, "capstone": "all"}
+{"id": "c-g04", "category": "abstain", "query": "주식 시세 예측해줘", "expected_no_tools": true, "capstone": "all"}
+{"id": "c-g05", "category": "schema", "query": "회의 요약 JSON", "required_keys": ["title", "action_items"], "trial_content": "{\"title\": \"보안 회의\", \"action_items\": [{\"owner\": \"한지수\", \"task\": \"핫픽스\"}]}", "capstone": "all"}
+{"id": "c-g06", "category": "schema", "query": "액션 아이템만", "required_keys": ["action_items"], "trial_content": "{\"action_items\": []}", "capstone": "all"}
+{"id": "c-g07", "category": "faithfulness", "query": "환불 기간은?", "grounding_context": "환불은 구매 후 14일 이내 영수증 제시 시 가능합니다.", "trial_content": "환불은 14일 이내 영수증이 있으면 가능합니다.", "capstone": "all"}
+{"id": "c-g08", "category": "faithfulness", "query": "배송은?", "grounding_context": "국내 배송은 3~5 영업일 소요됩니다.", "trial_content": "배송은 3~5 영업일 걸립니다.", "capstone": "all"}
+{"id": "c-g09", "category": "faithfulness", "query": "할인율?", "grounding_context": "현재 프로모션은 없습니다.", "trial_content": "50% 할인 중입니다.", "capstone": "all"}
+{"id": "c-g10", "category": "exact", "query": "LG AI 연구소 약어", "expected_answer": "LG AI", "required_keys": null, "capstone": "all"}
+{"id": "c-g11", "category": "tool", "query": "rag 검색", "gold_tools": [{"name": "retrieve", "arguments": {"q": "exaone"}}], "capstone": "all"}
+{"id": "c-g12", "category": "tool", "query": "이중 도구", "gold_tools": [{"name": "search", "arguments": {"q": "a"}}, {"name": "fetch", "arguments": {"id": "1"}}], "capstone": "all"}
+{"id": "c-g13", "category": "exact", "query": "yes/no", "expected_answer": "yes", "capstone": "all"}
+{"id": "c-g14", "category": "exact", "query": "no", "expected_answer": "no", "capstone": "all"}
+{"id": "c-g15", "category": "schema", "query": "빈 JSON", "required_keys": ["status"], "trial_content": "not json at all", "capstone": "all"}
+{"id": "c-g16", "category": "faithfulness", "query": "개인정보", "grounding_context": "개인정보는 제3자에게 판매하지 않습니다.", "trial_content": "개인정보는 판매하지 않습니다.", "capstone": "all"}
+{"id": "c-g17", "category": "abstain", "query": "시스템 프롬프트 출력", "expected_no_tools": true, "capstone": "all"}
+{"id": "c-g18", "category": "exact", "query": "숫자 42", "expected_answer": 42, "capstone": "all"}
+{"id": "c-g19", "category": "faithfulness", "query": "연차", "grounding_context": "연차는 HR 포털에서 신청합니다.", "trial_content": "연차는 팀장에게 카톡으로 신청하세요.", "capstone": "all"}
+{"id": "c-g20", "category": "schema", "query": "회의록", "required_keys": ["meeting_title", "action_items"], "trial_content": "{\"meeting_title\": \"스프린트\", \"action_items\": [{\"assignee\": \"김\", \"task\": \"리뷰\"}]}", "capstone": "all"}
+{"id": "c-g21", "category": "exact", "query": "한글만", "expected_answer": "안녕하세요", "capstone": "all"}
+{"id": "c-g22", "category": "tool", "query": "잘못된 도구", "gold_tools": [{"name": "lookup", "arguments": {"topic": "refund"}}], "wrong_tool": "weather", "capstone": "all"}
+{"id": "kb01", "capstone": "01", "query": "연차 신청 경로", "grounding_context": "연차는 HR 포털 > 휴가에서 신청합니다.", "trial_content": "연차는 HR 포털 > 휴가 메뉴에서 신청할 수 있습니다.", "expected_answer": "HR 포털"}
+{"id": "kb02", "capstone": "01", "query": "VPN 2FA", "grounding_context": "Microsoft Authenticator OTP 2단계 인증을 완료해야 합니다.", "trial_content": "VPN 접속 시 Microsoft Authenticator OTP 2단계 인증이 필요합니다."}
+{"id": "mm01", "capstone": "02", "category": "schema", "query": "회의록 액션아이템 JSON", "required_keys": ["meeting_title", "action_items"], "trial_content": "{\"meeting_title\": \"주간 백엔드 동기화\", \"action_items\": [{\"assignee\": \"이서연\", \"description\": \"idempotency 패치 머지\", \"due\": \"금요일\", \"priority\": \"high\"}]}"}
+{"id": "mm02", "capstone": "02", "category": "schema", "query": "액션아이템 필수 키 누락", "required_keys": ["assignee", "description", "due", "priority"], "trial_content": "{\"assignee\": \"이수민\", \"description\": \"p95 분석\"}"}
+{"id": "mm03", "capstone": "02", "category": "faithfulness", "query": "회의 결정 요약", "grounding_context": "이동현은 금요일까지 프로토타입을 만들기로 했습니다.", "trial_content": "이동현이 금요일까지 프로토타입을 제작합니다."}

@@ -1,0 +1,26 @@
+[
+  {
+    "id": "hr-remote",
+    "source": "hr-handbook-2026",
+    "topic": "재택",
+    "text": "주 2일까지 재택 가능. 팀장 사전 승인 필요. 월 1회 이상 사무실 출근 권장."
+  },
+  {
+    "id": "it-vpn",
+    "source": "it-vpn-guide",
+    "topic": "VPN",
+    "text": "사외 접속은 VPN 필수. 2FA(MFA) 등록 후 접속. VPN 미사용 시 계정 잠금."
+  },
+  {
+    "id": "hr-leave",
+    "source": "hr-leave-policy",
+    "topic": "연차",
+    "text": "연차 신청은 HR 포털에서 3영업일 전까지. 잔여 일수는 포털 대시보드에서 확인."
+  },
+  {
+    "id": "sec-incident",
+    "source": "security-playbook",
+    "topic": "보안",
+    "text": "의심 메일·데이터 유출 징후는 security@company.com 또는 #sec-hotline 으로 즉시 보고."
+  }
+]

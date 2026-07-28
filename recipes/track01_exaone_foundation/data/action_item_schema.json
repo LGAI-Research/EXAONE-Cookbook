@@ -1,0 +1,22 @@
+{
+  "type": "object",
+  "required": ["meeting_title", "action_items"],
+  "properties": {
+    "meeting_title": {"type": "string"},
+    "action_items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["assignee", "description", "due", "priority"],
+        "properties": {
+          "assignee": {"type": "string"},
+          "description": {"type": "string"},
+          "due": {"type": "string"},
+          "priority": {"type": "string", "enum": ["high", "medium", "low"]}
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

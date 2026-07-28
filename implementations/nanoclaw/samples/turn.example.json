@@ -1,0 +1,11 @@
+{
+  "question": "EXAONE이 이 NanoClaw 에이전트의 LLM 백본이라는 걸 한국어로 한 문장만 말해줘.",
+  "answer": "(로컬 E2E 실행 후 _out/nanoclaw_turn.json 에 기록됩니다)",
+  "provider": "opencode",
+  "opencode_provider": "exaone",
+  "model": "exaone/your-model-id",
+  "base_url": "https://your-openai-compatible-host/v1",
+  "channel": "cli",
+  "note_en": "Copy shape only — real runs write to implementations/nanoclaw/_out/ (gitignored).",
+  "note_kr": "형식 샘플 — 실제 실행 결과는 implementations/nanoclaw/_out/ (gitignore) 에 저장됩니다."
+}

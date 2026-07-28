@@ -1,0 +1,13 @@
+# (en) Default Korean demo task — example.com only, no login/credentials.
+# (kr) 기본 한국어 데모 태스크 — example.com 만, 로그인·자격증명 없음.
+
+name: example_kr
+allowed_domains:
+  - "https://example.com"
+  - "example.com"
+task: |
+  https://example.com 을 열고 페이지 제목과 본문 첫 문단을 한국어로 3문장 이내로 요약해줘.
+use_vision: false
+use_thinking: false
+headless: true
+max_failures: 5

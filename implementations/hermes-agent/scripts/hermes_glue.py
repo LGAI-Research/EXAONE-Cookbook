@@ -1,0 +1,451 @@
+#!/usr/bin/env python3
+"""
+(en) Single entrypoint for hermes-agent cookbook glue (check, render, ping, env, run).
+
+(kr) hermes-agent cookbook 접착 단일 진입점(check, render, ping, env, run).
+"""
+from __future__ import annotations
+
+import argparse
+import json
+import os
+import shlex
+import shutil
+import ssl
+import subprocess
+import sys
+import urllib.error
+import urllib.request
+from pathlib import Path
+from typing import Any
+
+_IMPL_ROOT = Path(__file__).resolve().parent.parent.parent
+if str(_IMPL_ROOT) not in sys.path:
+    sys.path.insert(0, str(_IMPL_ROOT))
+
+from common.exaone_env import (
+    build_urllib_ssl_context,
+    get_disable_ssl_verify,
+    get_requests_ca_bundle,
+    has_exaone_credentials,
+    load_exaone_env,
+    openai_compat_kwargs,
+    repo_root,
+)
+
+GLUE_FILE = Path(__file__).resolve()
+IMPL_DIR = GLUE_FILE.parent.parent
+DEFAULT_HERMES_HOME = IMPL_DIR / ".hermes"
+DEFAULT_CONFIG = DEFAULT_HERMES_HOME / "config.yaml"
+SUBMODULE = repo_root() / "submodules" / "hermes-agent"
+
+_SSL_PATCHED = False
+
+
+def _hermes_home() -> Path:
+    # (en) HERMES_HOME from env or repo-local .hermes default.
+    # (kr) HERMES_HOME — env 또는 repo 로컬 .hermes 기본값.
+    override = os.environ.get("HERMES_HOME", "").strip()
+    return Path(override) if override else DEFAULT_HERMES_HOME
+
+
+def _submodule_worktree_status() -> dict[str, Any]:
+    # (en) Detect accidental edits under submodules/hermes-agent (must stay upstream-pristine).
+    # (kr) submodules/hermes-agent 에 생긴 우발적 변경 감지(upstream 무수정 원칙).
+    if not SUBMODULE.is_dir():
+        return {"present": False, "clean": False, "dirty_entries": []}
+    proc = subprocess.run(
+        ["git", "-C", str(SUBMODULE), "status", "--porcelain"],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    dirty = [line for line in proc.stdout.splitlines() if line.strip()]
+    hint = None
+    if dirty:
+        hint = (
+            "submodules/hermes-agent must stay pristine — remove listed paths; "
+            "use implementations/hermes-agent/scripts/run_hermes.sh (cwd=implementations/hermes-agent)"
+        )
+    return {"present": True, "clean": not dirty, "dirty_entries": dirty[:30], "hint": hint}
+
+
+def cmd_check(_: argparse.Namespace) -> int:
+    # (en) Phase-0 JSON report: EXAONE env, submodule, optional hermes CLI.
+    # (kr) Phase-0 JSON 리포트: EXAONE env, submodule, 선택 hermes CLI.
+    load_exaone_env(caller_file=GLUE_FILE)
+    kw = openai_compat_kwargs(require_credentials=False)
+    root = repo_root()
+    creds = has_exaone_credentials(caller_file=GLUE_FILE)
+    hermes_cli: str | None = None
+    if shutil.which("hermes"):
+        hermes_cli = shutil.which("hermes")
+    else:
+        for candidate in (
+            Path.home() / ".local" / "bin" / "hermes",
+            SUBMODULE / ".venv" / "bin" / "hermes",
+        ):
+            if candidate.is_file() and os.access(candidate, os.X_OK):
+                hermes_cli = str(candidate)
+                break
+        if hermes_cli is None and SUBMODULE.is_dir():
+            hermes_cli = "uv-run-submodule"
+
+    report: dict[str, Any] = {
+        "repo_root": str(root),
+        "impl_env": str(IMPL_DIR),
+        "hermes_home": str(_hermes_home()),
+        "model": kw["model"],
+        "base_url": kw["base_url"],
+        "api_key_set": bool(kw["api_key"]),
+        "exaone_credentials_ready": creds,
+        "submodule_hermes_agent": SUBMODULE.is_dir(),
+        "submodule_worktree": _submodule_worktree_status(),
+        "hermes_cli": hermes_cli,
+    }
+    if not report["submodule_hermes_agent"]:
+        report["hint_submodule"] = (
+            "git clone https://github.com/NousResearch/hermes-agent.git submodules/hermes-agent"
+        )
+    if not creds:
+        report["hint_exaone"] = f"Set EXAONE_API_KEY and EXAONE_BASE_URL in {IMPL_DIR / '.env'}"
+    if hermes_cli == "uv-run-submodule":
+        report["hint_hermes"] = "run_cli_demo.sh bootstraps submodules/hermes-agent via scripts/run_hermes.sh"
+    wt = report["submodule_worktree"]
+    if wt.get("present") and not wt.get("clean"):
+        report["hint_submodule_dirty"] = wt.get("hint")
+    print(json.dumps(report, ensure_ascii=False, indent=2))
+    ok = report["submodule_hermes_agent"] and wt.get("clean", False)
+    return 0 if ok else 1
+
+
+def _render_yaml() -> str:
+    # (en) Hermes config.yaml body for custom provider exaone.
+    # (kr) custom provider exaone 용 Hermes config.yaml 본문.
+    kw = openai_compat_kwargs(require_credentials=False)
+    model = kw["model"].replace('"', '\\"')
+    base_url = kw["base_url"].replace('"', '\\"')
+    home = _hermes_home()
+    cred_note = ""
+    if not has_exaone_credentials(caller_file=GLUE_FILE):
+        cred_note = (
+            "# (en) Placeholder — set EXAONE_API_KEY in implementations/hermes-agent/.env\n"
+            "# (kr) placeholder — implementations/hermes-agent/.env 에 EXAONE_API_KEY 설정\n"
+        )
+    return f"""{cred_note}# (en) Generated by scripts/hermes_glue.py render
+# (kr) scripts/hermes_glue.py render 가 생성함
+# HERMES_HOME: {home}
+
+custom_providers:
+  - name: exaone
+    base_url: "{base_url}"
+    key_env: EXAONE_API_KEY
+    api_mode: chat_completions
+
+model:
+  default: "{model}"
+  provider: custom:exaone
+"""
+
+
+def _write_dotenv() -> Path:
+    # (en) Bridge impl .env → HERMES_HOME/.env for Hermes doctor and key_env.
+    # (kr) impl .env → HERMES_HOME/.env 브릿지(Hermes doctor·key_env).
+    kw = openai_compat_kwargs(require_credentials=False)
+    out = _hermes_home() / ".env"
+    out.parent.mkdir(parents=True, exist_ok=True)
+    lines = [
+        "# (en) Generated by hermes_glue.py — source: implementations/hermes-agent/.env",
+        "# (kr) hermes_glue.py 생성 — 정본: implementations/hermes-agent/.env",
+        "",
+        f"EXAONE_API_KEY={kw['api_key'] or ''}",
+    ]
+    base_url = (kw.get("base_url") or "").strip()
+    if base_url:
+        lines.extend(
+            [
+                "",
+                "# (en) Doctor hint only — runtime uses custom:exaone in config.yaml.",
+                "# (kr) Doctor 힌트만 — 런타임은 config.yaml 의 custom:exaone.",
+                f"# OPENAI_BASE_URL={base_url}",
+            ]
+        )
+    if get_disable_ssl_verify():
+        lines.extend(["", "DISABLE_SSL_VERIFY=1"])
+    ca = get_requests_ca_bundle()
+    if ca:
+        lines.append(f"REQUESTS_CA_BUNDLE={ca}")
+    text = "\n".join(lines) + "\n"
+    if out.is_file() and out.read_text(encoding="utf-8") == text:
+        print(f"unchanged {out}")
+    else:
+        out.write_text(text, encoding="utf-8")
+        print(f"wrote {out}")
+    return out
+
+
+def cmd_render(args: argparse.Namespace) -> int:
+    load_exaone_env(caller_file=GLUE_FILE)
+    out = args.output or DEFAULT_CONFIG
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(_render_yaml(), encoding="utf-8")
+    print(f"wrote {out}")
+    _write_dotenv()
+    return 0
+
+
+def cmd_ping(_: argparse.Namespace) -> int:
+    load_exaone_env(caller_file=GLUE_FILE)
+    if not has_exaone_credentials(caller_file=GLUE_FILE):
+        print(
+            json.dumps(
+                {
+                    "ok": False,
+                    "skipped": True,
+                    "reason": "EXAONE_API_KEY or EXAONE_BASE_URL not set — live ping skipped",
+                },
+                ensure_ascii=False,
+                indent=2,
+            )
+        )
+        return 0
+
+    kw = openai_compat_kwargs()
+    url = f"{kw['base_url'].rstrip('/')}/chat/completions"
+    body = {
+        "model": kw["model"],
+        "messages": [{"role": "user", "content": "Reply with exactly: EXAONE_OK"}],
+        "max_tokens": 32,
+    }
+    req = urllib.request.Request(
+        url,
+        data=json.dumps(body).encode("utf-8"),
+        headers={
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {kw['api_key']}",
+        },
+        method="POST",
+    )
+    ssl_ctx = build_urllib_ssl_context(caller_file=GLUE_FILE)
+    try:
+        with urllib.request.urlopen(req, timeout=90, context=ssl_ctx) as resp:
+            payload = json.loads(resp.read().decode("utf-8"))
+    except urllib.error.HTTPError as exc:
+        err_body = exc.read().decode("utf-8", errors="replace")[:500]
+        print(json.dumps({"ok": False, "status": exc.code, "error": err_body}, indent=2))
+        return 1
+    except urllib.error.URLError as exc:
+        hint = None
+        if "CERTIFICATE_VERIFY_FAILED" in str(exc.reason):
+            hint = "Set DISABLE_SSL_VERIFY=1 in implementations/hermes-agent/.env"
+        print(
+            json.dumps(
+                {
+                    "ok": False,
+                    "error": str(exc.reason),
+                    "disable_ssl_verify": get_disable_ssl_verify(),
+                    "hint": hint,
+                },
+                indent=2,
+            )
+        )
+        return 1
+
+    message = payload.get("choices", [{}])[0].get("message", {}) or {}
+    content = message.get("content") or message.get("reasoning_content") or ""
+    result = {
+        "ok": True,
+        "model": kw["model"],
+        "content_preview": (content or "")[:200],
+        "disable_ssl_verify": get_disable_ssl_verify(),
+    }
+    out_dir = IMPL_DIR / "_out"
+    out_dir.mkdir(parents=True, exist_ok=True)
+    out_path = out_dir / "cli_smoke.json"
+    out_path.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
+    print(json.dumps({**result, "saved": str(out_path)}, ensure_ascii=False, indent=2))
+    return 0
+
+
+def cmd_export_shell(_: argparse.Namespace) -> int:
+    # (en) Print bash/zsh export lines for REPO_ROOT, HERMES_HOME, EXAONE_*.
+    # (kr) REPO_ROOT·HERMES_HOME·EXAONE_* bash/zsh export 줄 출력.
+    load_exaone_env(caller_file=GLUE_FILE)
+    kw = openai_compat_kwargs(require_credentials=False)
+    root = repo_root()
+    home = _hermes_home()
+    pairs = {
+        "REPO_ROOT": str(root),
+        "HERMES_HOME": str(home),
+        "EXAONE_API_KEY": kw["api_key"],
+        "EXAONE_BASE_URL": kw["base_url"],
+        "EXAONE_MODEL": kw["model"],
+    }
+    if get_disable_ssl_verify():
+        pairs["DISABLE_SSL_VERIFY"] = "1"
+    ca = get_requests_ca_bundle()
+    if ca:
+        pairs["REQUESTS_CA_BUNDLE"] = ca
+    for key, val in pairs.items():
+        print(f"export {key}={shlex.quote(val)}")
+    return 0
+
+
+def cmd_link_cli(_: argparse.Namespace) -> int:
+    # (en) Symlink submodule venv hermes → ~/.local/bin/hermes (doctor convenience).
+    # (kr) submodule venv hermes → ~/.local/bin/hermes symlink(doctor 편의).
+    venv_hermes = SUBMODULE / ".venv" / "bin" / "hermes"
+    link_dir = Path.home() / ".local" / "bin"
+    link = link_dir / "hermes"
+    if not venv_hermes.is_file():
+        return 0
+    link_dir.mkdir(parents=True, exist_ok=True)
+    if link.is_symlink() and os.readlink(link) == str(venv_hermes):
+        print(f"unchanged {link}")
+        return 0
+    if link.exists() and not link.is_symlink():
+        print(f"skip {link} (exists, not a symlink)", file=sys.stderr)
+        return 0
+    if link.is_symlink() or link.exists():
+        link.unlink()
+    link.symlink_to(venv_hermes)
+    print(f"linked {link} -> {venv_hermes}")
+    return 0
+
+
+def _resolve_httpx_verify() -> bool | ssl.SSLContext:
+    if get_disable_ssl_verify():
+        return False
+    ca = get_requests_ca_bundle()
+    if ca:
+        return ssl.create_default_context(cafile=ca)
+    return True
+
+
+def _build_ssl_http_client(*, base_url: str, verify: bool | ssl.SSLContext, async_mode: bool = False) -> Any | None:
+    try:
+        import httpx as _httpx
+        import socket as _socket
+
+        from agent.process_bootstrap import _get_proxy_for_base_url
+
+        sock_opts = [(_socket.SOL_SOCKET, _socket.SO_KEEPALIVE, 1)]
+        if hasattr(_socket, "TCP_KEEPIDLE"):
+            sock_opts.extend(
+                [
+                    (_socket.IPPROTO_TCP, _socket.TCP_KEEPIDLE, 30),
+                    (_socket.IPPROTO_TCP, _socket.TCP_KEEPINTVL, 10),
+                    (_socket.IPPROTO_TCP, _socket.TCP_KEEPCNT, 3),
+                ]
+            )
+        elif hasattr(_socket, "TCP_KEEPALIVE"):
+            sock_opts.append((_socket.IPPROTO_TCP, _socket.TCP_KEEPALIVE, 30))
+        proxy = _get_proxy_for_base_url(base_url)
+        transport_cls = _httpx.AsyncHTTPTransport if async_mode else _httpx.HTTPTransport
+        client_cls = _httpx.AsyncClient if async_mode else _httpx.Client
+        return client_cls(
+            transport=transport_cls(socket_options=sock_opts, verify=verify),
+            proxy=proxy,
+            verify=verify,
+        )
+    except Exception:
+        return None
+
+
+def _apply_ssl_patch() -> bool:
+    global _SSL_PATCHED
+    if _SSL_PATCHED:
+        return True
+    load_exaone_env(caller_file=GLUE_FILE)
+    if not get_disable_ssl_verify() and not get_requests_ca_bundle():
+        return False
+
+    ssl_verify = _resolve_httpx_verify()
+    import run_agent
+
+    @staticmethod
+    def _patched_keepalive(base_url: str = "", *, verify: Any = True, **_kwargs: Any) -> Any:
+        # (en) Accept upstream `verify=` kwarg; enforce cookbook SSL policy.
+        # (kr) upstream `verify=` 키워드를 받고 cookbook SSL 정책을 적용한다.
+        return _build_ssl_http_client(base_url=base_url, verify=ssl_verify, async_mode=False)
+
+    run_agent.AIAgent._build_keepalive_http_client = _patched_keepalive
+
+    import agent.auxiliary_client as aux
+
+    proxy_cls = type(aux.OpenAI)
+    if not getattr(proxy_cls, "_exaone_ssl_proxy_patched", False):
+        original = proxy_cls.__call__
+
+        def _openai_with_ssl(self, *args: Any, **kwargs: Any) -> Any:
+            if "http_client" not in kwargs:
+                client = _build_ssl_http_client(
+                    base_url=str(kwargs.get("base_url") or ""),
+                    verify=ssl_verify,
+                    async_mode=False,
+                )
+                if client is not None:
+                    kwargs["http_client"] = client
+            return original(self, *args, **kwargs)
+
+        proxy_cls.__call__ = _openai_with_ssl
+        proxy_cls._exaone_ssl_proxy_patched = True
+
+    try:
+        from openai import AsyncOpenAI as RealAsyncOpenAI
+
+        if not getattr(RealAsyncOpenAI, "_exaone_ssl_patch_applied", False):
+            orig_init = RealAsyncOpenAI.__init__
+
+            def _async_init(self, *args: Any, **kwargs: Any) -> None:
+                if "http_client" not in kwargs:
+                    client = _build_ssl_http_client(
+                        base_url=str(kwargs.get("base_url") or ""),
+                        verify=ssl_verify,
+                        async_mode=True,
+                    )
+                    if client is not None:
+                        kwargs["http_client"] = client
+                return orig_init(self, *args, **kwargs)
+
+            RealAsyncOpenAI.__init__ = _async_init
+            RealAsyncOpenAI._exaone_ssl_patch_applied = True
+    except ImportError:
+        pass
+
+    _SSL_PATCHED = True
+    return True
+
+
+def bootstrap_hermes(argv: list[str]) -> int:
+    # (en) SSL patch + hermes CLI — argv is everything after the ``run`` token.
+    # (kr) SSL 패치 + hermes CLI — argv 는 ``run`` 토큰 이후 전부.
+    load_exaone_env(caller_file=GLUE_FILE)
+    _apply_ssl_patch()
+    sys.argv = ["hermes", *argv]
+    from hermes_cli.main import main as hermes_main
+
+    return int(hermes_main() or 0)
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description="hermes-agent EXAONE cookbook glue")
+    sub = parser.add_subparsers(dest="cmd", required=True)
+
+    sub.add_parser("check", help="JSON env/submodule report").set_defaults(func=cmd_check)
+    p_render = sub.add_parser("render", help="write .hermes/config.yaml + .hermes/.env")
+    p_render.add_argument("-o", "--output", type=Path, default=None)
+    p_render.set_defaults(func=cmd_render)
+    sub.add_parser("ping", help="one-turn EXAONE API ping (no Hermes)").set_defaults(func=cmd_ping)
+    sub.add_parser("export-shell", help="print export lines for bash/zsh source").set_defaults(func=cmd_export_shell)
+    sub.add_parser("link-cli", help="~/.local/bin/hermes → submodule venv").set_defaults(func=cmd_link_cli)
+
+    args = parser.parse_args(argv)
+    return int(args.func(args))
+
+
+if __name__ == "__main__":
+    _argv = sys.argv[1:]
+    if _argv and _argv[0] == "run":
+        raise SystemExit(bootstrap_hermes(_argv[1:]))
+    raise SystemExit(main())

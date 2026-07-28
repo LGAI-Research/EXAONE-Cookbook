@@ -1,0 +1,65 @@
+{
+  "title": "2026 Q1 제품 기획 회의",
+  "segments": [
+    {
+      "role": "user",
+      "speaker": "PM",
+      "content": "오늘 안건은 Q1 로드맵 확정과 예산 배분입니다. 먼저 지난주 고객 VOC 요약부터 공유할게요."
+    },
+    {
+      "role": "assistant",
+      "speaker": "note",
+      "content": "VOC 상위 3건: (1) 모바일 앱 로딩 지연 (2) API 문서 한국어 부족 (3) SSO 연동 요청 증가."
+    },
+    {
+      "role": "user",
+      "speaker": "Eng",
+      "content": "로딩 지연은 캐시 레이어와 CDN 재배치로 2주 내 개선 가능합니다. 예상 공수 3인주."
+    },
+    {
+      "role": "user",
+      "speaker": "Docs",
+      "content": "API 문서 한국어는 exaone cookbook 트랙 구조를 참고해 FAQ 50건을 우선 번역하는 방안을 제안합니다."
+    },
+    {
+      "role": "assistant",
+      "speaker": "note",
+      "content": "액션: Eng — CDN POC 2/15까지. Docs — FAQ 번역 우선순위 표 2/10까지."
+    },
+    {
+      "role": "user",
+      "speaker": "PM",
+      "content": "예산은 총 4.2억 중 인프라 40%, R&D 35%, 마케팅 25%로 초안을 잡았습니다."
+    },
+    {
+      "role": "user",
+      "speaker": "Finance",
+      "content": "마케팅 25%는 Q1 캠페인과 맞물려야 합니다. 상세 breakdown 은 다음 주 CFO 리뷰 전에 필요합니다."
+    },
+    {
+      "role": "assistant",
+      "speaker": "note",
+      "content": "결정: 예산 초안 유지, Finance — breakdown 시트 2/12 마감."
+    },
+    {
+      "role": "user",
+      "speaker": "PM",
+      "content": "SSO 연동은 엔터프라이즈 3곳 POC 와 묶어서 3월 릴리스 목표로 두겠습니다."
+    },
+    {
+      "role": "user",
+      "speaker": "Eng",
+      "content": "SSO 는 보안팀 HITL 승인 플로우가 필요합니다. Track 07 노트북의 HumanApprovalController 패턴을 따르는 게 좋겠습니다."
+    },
+    {
+      "role": "assistant",
+      "speaker": "note",
+      "content": "리스크: SSO 일정 — 보안 승인 지연 시 4월로 slip. Escalation 경로는 CISO 에게 사전 공유."
+    },
+    {
+      "role": "user",
+      "speaker": "PM",
+      "content": "다음 회의는 2/14 같은 시간. 액션 아이템 owner 확인하고 마무리합시다."
+    }
+  ]
+}

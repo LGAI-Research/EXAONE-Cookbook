@@ -1,0 +1,50 @@
+{"id": "faq-001", "category": "leave", "question": "연차는 입사 1년 미만일 때 어떻게 계산되나요?", "answer": "월 1일씩 발생하며 최대 11일까지 사용할 수 있습니다."}
+{"id": "faq-002", "category": "leave", "question": "반차는 몇 시간 단위로 신청하나요?", "answer": "4시간 단위이며 오전·오후 반차로 HR 포털에서 신청합니다."}
+{"id": "faq-003", "category": "leave", "question": "병가 증빙 서류는 언제 제출하나요?", "answer": "3일 초과 시 진단서를 HR 포털에 업로드해야 합니다."}
+{"id": "faq-004", "category": "leave", "question": "경조휴가는 며칠 부여되나요?", "answer": "본인 결혼 5일, 부모 사망 5일 등 사규 표를 따릅니다."}
+{"id": "faq-005", "category": "leave", "question": "연차 이월은 가능한가요?", "answer": "미사용 연차는 익년 3월까지 이월 가능합니다."}
+{"id": "faq-006", "category": "leave", "question": "출산휴가 신청 절차는?", "answer": "예정일 30일 전 HR 포털에서 신청하고 의사 확인서를 첨부합니다."}
+{"id": "faq-007", "category": "leave", "question": "대체휴가는 어떻게 받나요?", "answer": "공휴일 근무 시 팀장 승인 후 대체휴가로 compensatory leave를 부여합니다."}
+{"id": "faq-008", "category": "leave", "question": "Refresh 휴가는 무엇인가요?", "answer": "근속 3년마다 5일의 유급 refresh 휴가가 추가됩니다."}
+{"id": "faq-009", "category": "leave", "question": "반반차(2시간)도 있나요?", "answer": "육아·병원 등 사유 시 2시간 단위 휴가를 팀장 승인으로 사용할 수 있습니다."}
+{"id": "faq-010", "category": "leave", "question": "연차 취소는 언제까지 가능한가요?", "answer": "휴가 시작 1영업일 전까지 포털에서 취소할 수 있습니다."}
+{"id": "faq-011", "category": "payroll", "question": "급여일은 매월 언제인가요?", "answer": "매월 25일에 지급되며 휴일이면 전 영업일에 지급합니다."}
+{"id": "faq-012", "category": "payroll", "question": "연말정산 서류는 어디에 제출하나요?", "answer": "1월 둘째 주까지 HR 포털 전자제출합니다."}
+{"id": "faq-013", "category": "payroll", "question": "식대 비과세 한도는?", "answer": "월 20만 원까지 비과세 식대를 지급합니다."}
+{"id": "faq-014", "category": "payroll", "question": "야근 수당 기준은?", "answer": "법정 연장근로 수당을 150% 이상 적용합니다."}
+{"id": "faq-015", "category": "payroll", "question": "경비 정산 마감일은?", "answer": "매월 5일까지 Concur에 영수증을 등록합니다."}
+{"id": "faq-016", "category": "payroll", "question": "상여금 지급 시기는?", "answer": "6월·12월 성과에 따라 지급됩니다."}
+{"id": "faq-017", "category": "payroll", "question": "4대보험 취득 신고는?", "answer": "입사일 기준 14일 이내 HR에서 처리합니다."}
+{"id": "faq-018", "category": "payroll", "question": "급여명세서는 어디서 보나요?", "answer": "HR 포털 > 급여 > 명세서에서 PDF 다운로드합니다."}
+{"id": "faq-019", "category": "payroll", "question": "프리랜서 계약직 급여일도 같나요?", "answer": "계약서에 명시된 지급일을 따르며 보통 말일입니다."}
+{"id": "faq-020", "category": "payroll", "question": "해외 출장 일비는?", "answer": "국가별 일비 표에 따라 정액 지급합니다."}
+{"id": "faq-021", "category": "benefits", "question": "자기계발비는 얼마인가요?", "answer": "연 200만 원 한도로 강의·도서·자격증에 사용 가능합니다."}
+{"id": "faq-022", "category": "benefits", "question": "단체보험 가입 대상은?", "answer": "정규직 전원과 가족 4인까지 선택 가입합니다."}
+{"id": "faq-023", "category": "benefits", "question": "경조금 신청 방법은?", "answer": "HR 포털 > 복리후생 > 경조금에서 증빙 업로드 후 신청합니다."}
+{"id": "faq-024", "category": "benefits", "question": "헬스케어 지원 항목은?", "answer": "건강검진·치과·한의원 바우처를 연 1회 지급합니다."}
+{"id": "faq-025", "category": "benefits", "question": "주택자금 대출 지원이 있나요?", "answer": "근속 2년 이상 정규직 대상 사내 대출 프로그램이 있습니다."}
+{"id": "faq-026", "category": "benefits", "question": "자녀 학자금 지원은?", "answer": "초·중·고 등록금 일부를 지원합니다."}
+{"id": "faq-027", "category": "benefits", "question": "쏘카/택시 야간 귀가비는?", "answer": "22시 이후 퇴근 시 월 10만 원 한도로 지원합니다."}
+{"id": "faq-028", "category": "benefits", "question": "점심 식권은 어떻게 받나요?", "answer": "사원증 연동 전자식권으로 매일 1만 원 지급됩니다."}
+{"id": "faq-029", "category": "benefits", "question": "리프레시 키트는?", "answer": "연 1회 재택근무 키트(모니터암 등)를 신청할 수 있습니다."}
+{"id": "faq-030", "category": "benefits", "question": "EAP 심리상담은?", "answer": "전문기관 8회 무료 상담을 제공합니다."}
+{"id": "faq-031", "category": "security", "question": "OTP 분실 시 어떻게 하나요?", "answer": "보안포털에서 OTP 재발급 후 IT 헬프데스크 방문합니다."}
+{"id": "faq-032", "category": "security", "question": "PC 암호 변경 주기는?", "answer": "90일마다 변경해야 하며 12자 이상 복잡도 규칙을 따릅니다."}
+{"id": "faq-033", "category": "security", "question": "USB 사용이 허용되나요?", "answer": "승인된 암호화 USB만 사용 가능합니다."}
+{"id": "faq-034", "category": "security", "question": "피싱 메일 신고는?", "answer": "Outlook 피싱 신고 버튼 또는 security@company.com 으로 전달합니다."}
+{"id": "faq-035", "category": "security", "question": "VPN 2FA는 무엇을 쓰나요?", "answer": "Microsoft Authenticator OTP를 사용합니다."}
+{"id": "faq-036", "category": "security", "question": "화면 잠금 시간은?", "answer": "5분 미사용 시 자동 잠금됩니다."}
+{"id": "faq-037", "category": "security", "question": "클라우드 파일 외부 공유는?", "answer": "DLP 정책상 승인 없이 외부 공유가 차단됩니다."}
+{"id": "faq-038", "category": "security", "question": "개인 메일로 업무 파일 전송?", "answer": "정책 위반이며 승인된 파일전송 시스템만 사용합니다."}
+{"id": "faq-039", "category": "security", "question": "보안 교육은 필수인가요?", "answer": "연 1회 필수이며 미이수 시 VPN 접속이 제한됩니다."}
+{"id": "faq-040", "category": "security", "question": "노트북 분실 신고?", "answer": "즉시 IT 헬프데스크와 보안팀에 신고하고 원격 wipe를 요청합니다."}
+{"id": "faq-041", "category": "it", "question": "재택근무 VPN 접속 방법은?", "answer": "2FA 후 GlobalProtect 클라이언트로 접속합니다."}
+{"id": "faq-042", "category": "it", "question": "Jira 권한 요청은?", "answer": "IT 포털 > 권한요청에서 프로젝트와 역할을 선택합니다."}
+{"id": "faq-043", "category": "it", "question": "노트북 교체 주기는?", "answer": "4년 주기이며 조기 교체는 IT 포털 신청합니다."}
+{"id": "faq-044", "category": "it", "question": "프린터 드라이버 설치?", "answer": "IT 포털 소프트웨어 센터에서 자동 설치합니다."}
+{"id": "faq-045", "category": "it", "question": "Wi-Fi 게스트 계정?", "answer": "방문객은 Reception에서 당일 게스트 Wi-Fi 를 발급받습니다."}
+{"id": "faq-046", "category": "it", "question": "Teams 외부 미팅 녹화?", "answer": "참석자 동의 후 녹화하며 90일 보관됩니다."}
+{"id": "faq-047", "category": "it", "question": "개발자 클라우드 sandbox?", "answer": "AWS/Azure 샌드박스는 팀별 IAM 역할로 제공됩니다."}
+{"id": "faq-048", "category": "it", "question": "메일 용량 초과 시?", "answer": "아카이브 정책을 적용하거나 IT에 용량 증설을 요청합니다."}
+{"id": "faq-049", "category": "it", "question": "모니터 추가 지원?", "answer": "재택 키트 또는 사무실 데스크에서 1대 추가 신청 가능합니다."}
+{"id": "faq-050", "category": "it", "question": "소프트웨어 라이선스?", "answer": "Adobe 등은 IT 포털에서 할당된 라이선스만 사용합니다."}

@@ -1,0 +1,22 @@
+[project]
+name = "exaone-impl-browser-use"
+version = "0.0.0"
+description = "EXAONE Proof Gallery — browser-use glue (isolated uv env)"
+requires-python = ">=3.11"
+dependencies = [
+    "exaone",
+    "browser-use==0.12.9",
+    "playwright>=1.40.0",
+    "PyYAML>=6.0.0",
+]
+
+[tool.uv]
+package = false
+# (en) browser-use 0.12.9 pins openai==2.16.0; exaone needs >=2.26 — override for shared venv.
+# (kr) browser-use 0.12.9 는 openai==2.16.0 고정; exaone 은 >=2.26 필요 — 공유 venv 용 override.
+override-dependencies = [
+    "openai>=2.26.0",
+]
+
+[tool.uv.sources]
+exaone = { path = "../../exaone", editable = true }

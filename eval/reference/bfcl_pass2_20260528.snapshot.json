@@ -1,0 +1,48 @@
+{
+  "id": "bfcl_pass2_20260528",
+  "description": "Reference snapshot for docs/eval.md — BFCL 4 subsets × limit 25, pass². Full trial logs stay in local eval/reports/ (gitignored).",
+  "timestamp": "2026-05-28T16:32:31Z",
+  "command": "python -m eval.run --dataset bfcl_v3.simple,bfcl_v3.multiple,bfcl_v3.parallel,bfcl_v3.irrelevance --limit 25 --pass-k-trials 2 --sleep 3",
+  "datasets": [
+    "bfcl_v3.simple",
+    "bfcl_v3.multiple",
+    "bfcl_v3.parallel",
+    "bfcl_v3.irrelevance"
+  ],
+  "n_tasks": 100,
+  "pass_k_trials": 2,
+  "model": "LGAI-EXAONE/K-EXAONE-236B-A23B",
+  "endpoint_note": "OpenAI-compatible host from EXAONE_BASE_URL (example run used Friendli Serverless)",
+  "metrics": {
+    "naive": {
+      "M1": 0.84,
+      "M2": 0.827,
+      "M3": 0.667,
+      "M4": 0.687,
+      "M5": 0.96,
+      "M7": 0.558,
+      "M8": 0.785,
+      "M2_breakdown": {"pass_1": 0.84, "pass_2": 0.827}
+    },
+    "harness": {
+      "M1": 0.84,
+      "M2": 0.827,
+      "M3": 0.84,
+      "M4": 0.784,
+      "M5": 0.86,
+      "M7": 0.236,
+      "M8": 1.0,
+      "M2_breakdown": {"pass_1": 0.84, "pass_2": 0.827}
+    },
+    "delta_harness_minus_naive": {
+      "M1": 0.0,
+      "M2": 0.0,
+      "M3": 0.173,
+      "M4": 0.097,
+      "M5": -0.1,
+      "M7": -0.322,
+      "M8": 0.215
+    }
+  },
+  "m7_notes": "M7 = TSR / (mean_tokens/1000). Harness includes internal router/repair LLM calls; lower M7 with similar M1 is an expected trade-off until Phase 1 token scope is unified."
+}

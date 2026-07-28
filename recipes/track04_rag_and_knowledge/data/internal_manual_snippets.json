@@ -1,0 +1,51 @@
+{
+  "snippets": [
+    {
+      "id": "m-001",
+      "source": "hr-leave-policy",
+      "text": "연차는 입사 1년 미만 직원에게 월 1일씩 발생하며 최대 11일까지 사용할 수 있습니다. 신청은 HR 포털 > 휴가에서 합니다."
+    },
+    {
+      "id": "m-002",
+      "source": "hr-leave-policy",
+      "text": "반차는 4시간 단위이며 오전 09:00-13:00, 오후 14:00-18:00 구간으로 신청합니다."
+    },
+    {
+      "id": "m-003",
+      "source": "it-vpn-guide",
+      "text": "재택근무 시 GlobalProtect VPN에 접속한 뒤 Microsoft Authenticator OTP 2단계 인증을 완료해야 합니다."
+    },
+    {
+      "id": "m-004",
+      "source": "it-vpn-guide",
+      "text": "VPN 접속 전 PC는 최신 보안 패치와 90일 이내 비밀번호 변경 상태여야 합니다."
+    },
+    {
+      "id": "m-005",
+      "source": "security-phishing",
+      "text": "의심 메일은 Outlook '피싱으로 신고' 버튼을 사용하고 첨부파일을 열지 마세요."
+    },
+    {
+      "id": "m-006",
+      "source": "payroll-calendar",
+      "text": "급여는 매월 25일 지급되며 공휴일이면 전 영업일에 입금됩니다."
+    },
+    {
+      "id": "m-007",
+      "source": "benefits-education",
+      "text": "자기계발비는 연 200만 원 한도로 HR 포털에서 강의·도서·자격증 비용을 청구할 수 있습니다."
+    },
+    {
+      "id": "m-008",
+      "source": "security-dlp",
+      "text": "OneDrive/SharePoint 파일의 외부 공유는 DLP 정책으로 기본 차단되며 예외는 보안팀 승인이 필요합니다."
+    }
+  ],
+  "questions": [
+    "연차는 입사 첫해에 며칠까지 쓸 수 있나요?",
+    "재택근무 VPN 접속 방법을 알려주세요.",
+    "피싱 메일을 받으면 어떻게 신고하나요?",
+    "급여일은 매월 언제인가요?",
+    "자기계발비 한도는 얼마인가요?"
+  ]
+}

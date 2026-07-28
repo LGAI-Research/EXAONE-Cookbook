@@ -1,0 +1,14 @@
+[project]
+name = "exaone-impl-hermes-agent"
+version = "0.0.0"
+description = "EXAONE Proof Gallery — Hermes glue scripts (isolated uv env)"
+requires-python = ">=3.10"
+dependencies = [
+    "exaone",
+]
+
+[tool.uv]
+package = false
+
+[tool.uv.sources]
+exaone = { path = "../../exaone", editable = true }

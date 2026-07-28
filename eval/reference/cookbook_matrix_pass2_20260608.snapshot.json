@@ -1,0 +1,70 @@
+{
+  "id": "cookbook_matrix_pass2_20260608",
+  "description": "Reference snapshot for docs/eval.md §4.1 — Cookbook matrix (BFCL 4 + IFEval + HaluBench) × limit 25, pass². M9 uses faithfulness_answer_text (JSON answer unwrap + nested structured fix). Full trial logs stay in local eval/reports/ (gitignored).",
+  "timestamp": "2026-06-08T13:27:21Z",
+  "command": "python -m eval.run --dataset bfcl_v3.simple,bfcl_v3.multiple,bfcl_v3.parallel,bfcl_v3.irrelevance,ifeval,halubench --limit 25 --pass-k-trials 2 --sleep 3",
+  "datasets": [
+    "bfcl_v3.simple",
+    "bfcl_v3.multiple",
+    "bfcl_v3.parallel",
+    "bfcl_v3.irrelevance",
+    "ifeval",
+    "halubench"
+  ],
+  "n_tasks": 150,
+  "pass_k_trials": 2,
+  "model": "LGAI-EXAONE/K-EXAONE-236B-A23B",
+  "endpoint_note": "OpenAI-compatible host from EXAONE_BASE_URL (run used Friendli Serverless)",
+  "local_report_note": "Full ComparisonReport: eval/reports/20260608T132721Z.{json,md} (not committed)",
+  "metrics": {
+    "naive": {
+      "M1": 0.645,
+      "M2": 0.853,
+      "M3": 0.68,
+      "M4": 0.711,
+      "M5": 0.9,
+      "M6": 0.02,
+      "M7": 0.516,
+      "M8": 0.863,
+      "M9": 0.508,
+      "M10": 0.0,
+      "M2_breakdown": {"pass_1": 0.853, "pass_2": 0.853},
+      "M5_breakdown": {"hallucinated_calls_total": 5}
+    },
+    "harness": {
+      "M1": 0.63,
+      "M2": 0.787,
+      "M3": 0.84,
+      "M4": 0.78,
+      "M5": 0.9,
+      "M6": 0.52,
+      "M7": 0.201,
+      "M8": 1.0,
+      "M9": 0.565,
+      "M10": 1.0,
+      "M2_breakdown": {"pass_1": 0.84, "pass_2": 0.787},
+      "M5_breakdown": {"hallucinated_calls_total": 6}
+    },
+    "delta_harness_minus_naive": {
+      "M1": -0.015,
+      "M2": -0.067,
+      "M3": 0.16,
+      "M4": 0.069,
+      "M5": 0.0,
+      "M6": 0.5,
+      "M7": -0.315,
+      "M8": 0.137,
+      "M9": 0.057,
+      "M10": 1.0
+    }
+  },
+  "reading_notes": [
+    "Delta > 0: harness better on that metric (M1–M10 all higher-is-better).",
+    "M1/M2: harness pass² slightly below naive on this run (stochasticity); M3/M4 tool gains do not automatically lift M1 (BFCL any-of judge).",
+    "M5 parity: irrelevance abstention 0.90 both sides; hallucinated calls harness 6 vs naive 5.",
+    "M7: harness mean_tokens ~3131 vs naive ~1250 at similar TSR — router/planner/finalize internal LLM cost.",
+    "M9: HaluBench token-overlap judge on faithfulness_answer_text (JSON answer field + nested unwrap); harness slightly above naive on this run.",
+    "M10: harness-only HTTP-layer empty/reasoning-only recovery; naive baseline has no retry path.",
+    "Table B (tau-bench) is a separate report — see docs/eval.md §4.2."
+  ]
+}
