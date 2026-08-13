@@ -48,3 +48,18 @@ resp = client.chat([exaone.llm.ExaoneMessage(role="user", content="안녕")])
 - API 키 없음 → Track 00
 - `tool_calls` 비어 있음 → 모델이 function calling 지원하는지 확인
 - JSON 스키마 실패 → `response_format` 지원 여부 확인
+
+---
+
+## K-EXAONE 2.0 · `enable_thinking` / `preserve_thinking`
+
+이 트랙의 Session 1·2·3·4는 **단발 호출·잡담·JSON** 데모이므로 노트북에서 `ExaoneGenerateOptions(enable_thinking=False, …)` 를 씁니다. 지연과 토큰을 아끼는 패턴입니다.
+
+Session 5 **ThinkingRouter**는 질문 유형에 따라 thinking on/off를 **라우팅**합니다. Track 02 **`ToolAgent` 멀티턴 루프**처럼 **agentic** 워크플로로 넘어가면 `enable_thinking=True`와 `preserve_thinking=True`를 **명시**하세요 — **효과**는 K-EXAONE 2.0+에서 reasoning trace가 유지됩니다.
+
+| 상황 | `enable_thinking` | `preserve_thinking` |
+|------|-------------------|---------------------|
+| 이 트랙 chitchat · JSON · FC 데모 | `False` | `False` |
+| Track 02+ ToolAgent / eval agentic | `True` | **`True`** (효과는 2.0+) |
+
+`exaone.llm` 클라이언트는 `enable_thinking`만 설정합니다. `preserve_thinking`은 eval glue(`eval/exaone_api_kwargs.py`) 또는 `extra_body`로 **명시**합니다 — 모델 id 추측 없이 설정값을 payload에 그대로 실립니다. 상세: [`docs/k_exaone_2.md`](../../docs/k_exaone_2.md).

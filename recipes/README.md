@@ -35,6 +35,8 @@ ROOT = exaone.project_root()
 
 `from exaone.llm import ...` 처럼 서브모듈 직접 import 는 쓰지 않고, `import exaone` 뒤 점(`.`) 접근만 사용합니다.
 
+**K-EXAONE 2.0 API:** chitchat·단발 QA는 `enable_thinking=False`, `preserve_thinking=False`. agentic(`ToolAgent`·Track 02+)은 둘 다 `True` — **효과**는 2.0+, 1.0 payload에는 실리지만 무시됩니다. → [`docs/k_exaone_2.md`](../docs/k_exaone_2.md)
+
 ---
 
 ## 트랙 목록

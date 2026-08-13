@@ -86,7 +86,7 @@ playwright install chromium
 | 항목 | 설명 |
 |------|------|
 | **Python** | ≥3.11 (browser-use upstream 요구) |
-| **browser-use** | `0.12.9` — `pyproject.toml` pin |
+| **browser-use** | `0.13.7` — `pyproject.toml` pin |
 | **Playwright** | 최초 1회 `playwright install chromium` 필수 |
 | **EXAONE** | `implementations/browser-use/.env` 의 `EXAONE_*` |
 

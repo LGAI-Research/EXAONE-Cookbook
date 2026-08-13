@@ -5,7 +5,8 @@ description = "EXAONE Proof Gallery — CrewAI glue (isolated uv env)"
 requires-python = ">=3.10"
 dependencies = [
     "exaone",
-    "crewai>=0.130,<1",
+    "crewai>=1.15,<2",
+    "litellm>=1.0",
 ]
 
 [tool.uv]

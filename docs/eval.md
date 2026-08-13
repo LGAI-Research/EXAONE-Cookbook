@@ -18,6 +18,8 @@
 | JSON / schema | raw parse | `JsonExtractor → AutoRepair → SchemaValidator` |
 | 라우팅 | 없음 | `ThinkingRouter`, `NextStepPlanner` |
 
+**K-EXAONE 2.0 API:** agentic runner(τ-bench, Harbor 등)는 `eval/exaone_api_kwargs.py`로 **`enable_thinking` / `preserve_thinking`을 환경 변수·인자로 명시**합니다. chitchat·단발 QA는 둘 다 `False`. `preserve_thinking` 효과는 2.0+ — 1.0 payload에는 실리지만 무시됩니다. → [`k_exaone_2.md`](./k_exaone_2.md)
+
 ---
 
 ## 2. M1–M10 — 같은 평면, **전부 ↑ 높을수록 좋음**

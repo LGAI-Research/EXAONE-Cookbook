@@ -40,6 +40,22 @@
 
 ---
 
+## K-EXAONE 2.0 · `preserve_thinking`
+
+K-EXAONE **2.0**은 1.0과 달리 OpenAI 호환 API에 **`preserve_thinking`** 이 추가됩니다. 이전 턴의 `reasoning_content`를 멀티턴 컨텍스트에 **남길지** 결정합니다.
+
+| 워크플로 | `enable_thinking` | `preserve_thinking` |
+|----------|-------------------|---------------------|
+| 잡담 · 단발 Q&A | `False` | `False` — **지연·토큰 절약** |
+| **Agentic** (ToolAgent · 도구 루프) | `True` | **`True` (필수)** — 효과는 **K-EXAONE 2.0+** |
+
+- **`exaone.llm.ExaoneAPIClient`**: `ExaoneGenerateOptions.enable_thinking`만 노출합니다. `preserve_thinking`은 **eval glue**(`eval/exaone_api_kwargs.py`) 또는 `extra_body`로 **명시**합니다.
+- **K-EXAONE 1.0**에 `preserve_thinking`을 payload에 넣어도 보통 **무시**되며, Cookbook은 모델 id 추측 없이 설정값을 그대로 보냅니다.
+
+자세한 API 표·환경 변수·eval 연동은 [`k_exaone_2.md`](./k_exaone_2.md)를 참고하세요.
+
+---
+
 ## 막히면
 
 - **import 오류** → 루트에서 `pip install -r requirements.txt && pip install -e .` 후 Jupyter 커널이 같은 `.venv` 인지 확인 ([`recipes/README.md`](../recipes/README.md))  

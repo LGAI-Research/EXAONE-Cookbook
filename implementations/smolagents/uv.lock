@@ -226,7 +226,7 @@ dependencies = [
 [package.metadata]
 requires-dist = [
     { name = "exaone", editable = "../../exaone" },
-    { name = "smolagents", extras = ["openai"], specifier = "==1.25.0" },
+    { name = "smolagents", extras = ["openai"], specifier = "==1.26.0" },
 ]
 
 [[package]]
@@ -234,7 +234,7 @@ name = "exceptiongroup"
 version = "1.3.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "typing-extensions", marker = "python_full_version < '3.13'" },
+    { name = "typing-extensions", marker = "python_full_version < '3.11'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/50/79/66800aadf48771f6b62f7eb014e352e5d06856655206165d775e675a02c9/exceptiongroup-1.3.1.tar.gz", hash = "sha256:8b412432c6055b0b7d14c310000ae93352ed6754f70fa8f7c34141f91c4e3219", size = 30371, upload-time = "2025-11-21T23:01:54.787Z" }
 wheels = [
@@ -1553,7 +1553,7 @@ wheels = [
 
 [[package]]
 name = "smolagents"
-version = "1.25.0"
+version = "1.26.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "huggingface-hub" },
@@ -1563,9 +1563,9 @@ dependencies = [
     { name = "requests" },
     { name = "rich" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/44/b0/bb21276a171d99910649da5fd54f450033135858caf63257532bbac7b7fe/smolagents-1.25.0.tar.gz", hash = "sha256:f394a65cb1de76c5938624ca8ef56573460f55a9ab517c2a4b6c2c4dbc932228", size = 242056, upload-time = "2026-05-14T11:36:18.356Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/bd/85/3ca67bb57743434ac321821ea54cbdbf0d3dcc8d55f37199709e83141340/smolagents-1.26.0.tar.gz", hash = "sha256:4ec92313265f9cfbcabfc88e192b4bc4505f8475dc5f33dc872062fc567037bd", size = 239034, upload-time = "2026-05-29T05:08:44.732Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/d6/f9/8e3c92bdf5310c307d3d1ec105e8a6677c34b9c85650facc890569395efa/smolagents-1.25.0-py3-none-any.whl", hash = "sha256:fbb6716ef9ff164c9ca6238d8bd2559736c9e171a21443e2c61c400d443bdcde", size = 164726, upload-time = "2026-05-14T11:36:16.367Z" },
+    { url = "https://files.pythonhosted.org/packages/89/8c/72bd5edc13288e3f27d4d9c1ef65adc0a68c950ee1fc6d3be270e1110f6c/smolagents-1.26.0-py3-none-any.whl", hash = "sha256:70e1cfb1576f782da93190ee31d9bb2659e5ca4bd84fda0c412e1f20498f28b6", size = 161466, upload-time = "2026-05-29T05:08:43.28Z" },
 ]
 
 [package.optional-dependencies]

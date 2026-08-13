@@ -31,20 +31,20 @@ git clone https://github.com/huggingface/smolagents.git    submodules/smolagents
 필요하면 권장 커밋으로 checkout (호환이 검증된 pin):
 
 ```bash
-git -C submodules/hermes-agent  checkout 8208fc527
-git -C submodules/browser-use   checkout 8342696
-git -C submodules/nanoclaw      checkout 2492259
-git -C submodules/crewai        checkout 2148c7e
-git -C submodules/smolagents    checkout 13724b5
+git -C submodules/hermes-agent  checkout v2026.8.3
+git -C submodules/browser-use   checkout 0.13.7
+git -C submodules/nanoclaw      checkout v2.1.54
+git -C submodules/crewai        checkout v1.10.0.1
+git -C submodules/smolagents    checkout v1.26.0
 ```
 
 | Repo | Clone URL | 권장 pin | Implementation | Upstream 라이선스 |
 |------|-----------|----------|----------------|-------------------|
-| Hermes Agent | https://github.com/NousResearch/hermes-agent.git | `8208fc527` | `implementations/hermes-agent/` | MIT |
-| browser-use | https://github.com/browser-use/browser-use.git | `8342696` (tag `0.12.9`) | `implementations/browser-use/` | MIT |
-| NanoClaw | https://github.com/nanocoai/nanoclaw.git | `2492259` | `implementations/nanoclaw/` | MIT |
-| CrewAI | https://github.com/crewAIInc/crewAI.git | `2148c7e` | `implementations/crewai/` | MIT |
-| smolagents | https://github.com/huggingface/smolagents.git | `13724b5` | `implementations/smolagents/` | Apache-2.0 |
+| Hermes Agent | https://github.com/NousResearch/hermes-agent.git | `3c27eb623` (tag `v2026.8.3`) | `implementations/hermes-agent/` | MIT |
+| browser-use | https://github.com/browser-use/browser-use.git | `f0aa3a8b` (tag `0.13.7`) | `implementations/browser-use/` | MIT |
+| NanoClaw | https://github.com/nanocoai/nanoclaw.git | `62bd444` (tag `v2.1.54`) | `implementations/nanoclaw/` | MIT |
+| CrewAI | https://github.com/crewAIInc/crewAI.git | `8df499d4` (tag `v1.10.0.1`; PyPI `crewai==1.15.15`) | `implementations/crewai/` | MIT |
+| smolagents | https://github.com/huggingface/smolagents.git | `12c1bc8` (tag `v1.26.0`) | `implementations/smolagents/` | Apache-2.0 |
 
 Cookbook 본문·`implementations/` 접착 코드: [`LICENSE.md`](../LICENSE.md) (BSD-3-Clause-LG AI Research). OSS Notice 정본: [`NOTICE.md`](../NOTICE.md).
 

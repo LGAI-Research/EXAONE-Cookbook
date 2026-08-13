@@ -23,9 +23,9 @@ NanoClaw trunk는 **Claude Agent SDK**(`AGENT_PROVIDER=claude`)가 기본이다.
 
 | 항목 | 값 |
 |------|-----|
-| NanoClaw submodule (main) | `2492259` |
-| OpenCode skill 소스 | `origin/providers` @ `b429ab37` (2026-05-28 fetch 기준) |
-| OpenCode SDK + CLI pin | `1.4.17` (1.14.x 와 **비호환**) |
+| NanoClaw submodule (main) | `62bd444` (tag `v2.1.54`) |
+| OpenCode skill 소스 | `origin/providers` @ `9cfea509` (2026-08-12 fetch 기준) |
+| OpenCode SDK + CLI pin | `1.18.16` (1.14.x 와 **비호환**; 1.4.x 대비 major bump — vendor 재적용 시 pin 확인) |
 
 ### EXAONE env 매핑
 
@@ -54,7 +54,7 @@ Cookbook `implementations/nanoclaw/.env` → NanoClaw host `.env` ( `scripts/syn
 | Phase | 산출물 | 커밋 |
 |-------|--------|------|
 | 0 | 본 문서 + `scripts/check_env.py` | ✅ |
-| 1 | `apply-opencode-from-providers.sh`, `opencode.exaone.fragment.json`, `config.exaone.example.env` | ✅ |
+| 1 | `vendor/opencode-from-providers/`, `opencode.exaone.fragment.json`, `config.exaone.example.env` | ✅ |
 | 2 | `scripts/sync_nanoclaw_env.sh`, `scripts/print_onecli_exaone.sh` | ✅ |
 | 3 | `run_cli_demo.sh`, `samples/turn.example.json` | ✅ |
 | 4 | `README.md` 완성 (요구사항·E2E·Expert opt-in) | ✅ |

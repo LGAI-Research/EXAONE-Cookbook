@@ -3,7 +3,7 @@
 | | |
 |--|--|
 | **Upstream** | `submodules/crewai` (직접 clone) → [crewAIInc/crewAI](https://github.com/crewAIInc/crewAI) |
-| **권장 pin** | `2148c7e` (2026-05-28) |
+| **권장 pin** | `8df499d4` (tag `v1.10.0.1`; PyPI `crewai==1.15.15`, 2026-08-12) |
 | **Pip (verified)** | `crewai` 0.203.x — see `requirements-crewai.txt` |
 | **상태** | ✅ E2E — `run_crew.py` |
 

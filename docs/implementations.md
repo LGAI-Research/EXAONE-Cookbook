@@ -2,7 +2,7 @@
 
 > **독자:** 이 문서를 받은 에이전트·엔지니어.  
 > **목적:** `recipes/`(입문)와 분리된 **선진 OSS 하니스 + EXAONE** 쇼케이스를 upstream 직접 clone + 접착 코드로 구축한다.  
-> **상태:** 2026-07 — git submodule 제거. `submodules/` 는 유저가 직접 clone (레포 미포함).
+> **상태:** 2026-08 — git submodule 제거. `submodules/` 는 유저가 직접 clone (레포 미포함).
 
 ---
 
@@ -52,11 +52,11 @@ Clone 가이드 정본: [`implementations/README.md`](../implementations/README.
 
 | Repo | Path | Upstream | 권장 pin | Upstream license |
 |------|------|----------|----------|------------------|
-| hermes-agent | `submodules/hermes-agent` | [NousResearch/hermes-agent](https://github.com/NousResearch/hermes-agent) | `8208fc527` | MIT |
-| browser-use | `submodules/browser-use` | [browser-use/browser-use](https://github.com/browser-use/browser-use) | `8342696` (tag `0.12.9`) | MIT |
-| nanoclaw | `submodules/nanoclaw` | [nanocoai/nanoclaw](https://github.com/nanocoai/nanoclaw) | `2492259` | MIT |
-| crewai | `submodules/crewai` | [crewAIInc/crewAI](https://github.com/crewAIInc/crewAI) | `2148c7e` | MIT |
-| smolagents | `submodules/smolagents` | [huggingface/smolagents](https://github.com/huggingface/smolagents) | `13724b5` | Apache-2.0 |
+| hermes-agent | `submodules/hermes-agent` | [NousResearch/hermes-agent](https://github.com/NousResearch/hermes-agent) | `3c27eb623` (tag `v2026.8.3`) | MIT |
+| browser-use | `submodules/browser-use` | [browser-use/browser-use](https://github.com/browser-use/browser-use) | `f0aa3a8b` (tag `0.13.7`) | MIT |
+| nanoclaw | `submodules/nanoclaw` | [nanocoai/nanoclaw](https://github.com/nanocoai/nanoclaw) | `62bd444` (tag `v2.1.54`) | MIT |
+| crewai | `submodules/crewai` | [crewAIInc/crewAI](https://github.com/crewAIInc/crewAI) | `8df499d4` (tag `v1.10.0.1`; PyPI `crewai==1.15.15`) | MIT |
+| smolagents | `submodules/smolagents` | [huggingface/smolagents](https://github.com/huggingface/smolagents) | `12c1bc8` (tag `v1.26.0`) | Apache-2.0 |
 
 **클론 (git submodule 아님):**
 
@@ -69,11 +69,11 @@ git clone https://github.com/crewAIInc/crewAI.git          submodules/crewai
 git clone https://github.com/huggingface/smolagents.git    submodules/smolagents
 
 # 선택: 권장 pin
-git -C submodules/hermes-agent checkout 8208fc527
-git -C submodules/browser-use  checkout 8342696
-git -C submodules/nanoclaw     checkout 2492259
-git -C submodules/crewai       checkout 2148c7e
-git -C submodules/smolagents   checkout 13724b5
+git -C submodules/hermes-agent checkout v2026.8.3
+git -C submodules/browser-use  checkout 0.13.7
+git -C submodules/nanoclaw     checkout v2.1.54
+git -C submodules/crewai       checkout v1.10.0.1
+git -C submodules/smolagents   checkout v1.26.0
 ```
 
 ### 2.1 버전 정책 (upstream `main` 자동 추적 안 함)

@@ -79,17 +79,22 @@ implementations/nanoclaw/scripts/install_prerequisites.sh
 ./implementations/uv_run.sh nanoclaw python scripts/check_env.py
 ```
 
-## 단계별 실행
-
-### 1. OpenCode provider vendoring (cookbook only)
+Tool schema regression (vendor static + optional live EXAONE API):
 
 ```bash
-implementations/nanoclaw/apply-opencode-from-providers.sh
+pytest test/unit_implementations/test_exaone_tool_schema_compat.py
+RUN_LIVE_TURN=1 pytest test/unit_implementations/test_exaone_tool_schema_compat.py
 ```
 
-upstream `origin/providers` @ `b429ab37` 에서 OpenCode provider 파일을 **`implementations/nanoclaw/vendor/`** 로만 복사한다. submodule은 **read-only** (`git fetch`만, working tree 변경 없음).
+## 단계별 실행
 
-OpenCode SDK/CLI pin: **1.4.17**
+### 1. OpenCode vendor bundle (repo에 포함)
+
+경로: `implementations/nanoclaw/vendor/opencode-from-providers/`
+
+upstream `origin/providers` @ `9cfea509` 스냅샷이 **cookbook에 커밋**되어 있다. submodule은 **read-only**.
+
+OpenCode SDK/CLI pin: **1.18.16**
 
 fork 적용: `vendor/opencode-from-providers/APPLY-TO-YOUR-NANOCLAW-FORK.md`
 
@@ -177,7 +182,7 @@ WhatsApp · Telegram · Discord 등 **실메신저** 연동은 upstream `nanocla
 
 - [x] `README.md` — Docker / Node 20+ / pnpm 요구사항
 - [x] `config.exaone.example.env` + `opencode.exaone.fragment.json`
-- [x] `apply-opencode-from-providers.sh` + env/OneCLI 스크립트
+- [x] `vendor/opencode-from-providers/` + env/OneCLI 스크립트
 - [x] `run_cli_demo.sh` + `samples/turn.example.json`
 - [x] `run_exaone_turn.py` + `eval_smoke.py` — cookbook EXAONE 1턴 E2E
 - [x] `scripts/install_prerequisites.sh` — Docker/Node/pnpm 체크리스트
@@ -189,11 +194,11 @@ WhatsApp · Telegram · Discord 등 **실메신저** 연동은 upstream `nanocla
 | 파일 | 역할 |
 |------|------|
 | [`INTEGRATION.md`](./INTEGRATION.md) | 정본 경로·Phase 로드맵 |
-| [`apply-opencode-from-providers.sh`](./apply-opencode-from-providers.sh) | upstream OpenCode → `vendor/` (submodule 미수정) |
+| [`vendor/opencode-from-providers/`](./vendor/opencode-from-providers/) | OpenCode provider 스냅샷 (submodule 미수정) |
 | [`scripts/sync_nanoclaw_env.sh`](./scripts/sync_nanoclaw_env.sh) | `EXAONE_*` → `_out/nanoclaw.exaone.env` |
 | [`scripts/print_onecli_exaone.sh`](./scripts/print_onecli_exaone.sh) | OneCLI 등록 명령 출력 |
 | [`scripts/check_env.py`](./scripts/check_env.py) | Phase 0 스모크 |
-| [`run_cli_demo.sh`](./run_cli_demo.sh) | vendor + env 오케스트레이터 (`RUN_LIVE_TURN=1`) |
+| [`run_cli_demo.sh`](./run_cli_demo.sh) | env 오케스트레이터 (`RUN_LIVE_TURN=1`) |
 | [`run_exaone_turn.py`](./run_exaone_turn.py) | Cookbook EXAONE 1턴 → `_out/nanoclaw_turn.json` |
 | [`eval_smoke.py`](./eval_smoke.py) | 턴 산출물 검증 (`--run` 옵션) |
 | [`scripts/install_prerequisites.sh`](./scripts/install_prerequisites.sh) | 선수 조건 체크리스트 |

@@ -63,7 +63,7 @@ uv sync --project implementations/smolagents
 |------|------|
 | **Python** | ≥3.10 (smolagents upstream 요구) |
 | **uv** | 각 implementation 전용 `.venv` (cookbook `.venv` 와 분리) |
-| **smolagents** | `1.25.0` — `pyproject.toml` pin |
+| **smolagents** | `1.26.0` — `pyproject.toml` pin |
 | **EXAONE** | `implementations/smolagents/.env` 의 `EXAONE_*` |
 
 회사망 TLS 이슈는 **implementation `.env`** 의 `DISABLE_SSL_VERIFY` / `REQUESTS_CA_BUNDLE` — [`PLAYBOOK.md`](../../PLAYBOOK.md) Part 8.

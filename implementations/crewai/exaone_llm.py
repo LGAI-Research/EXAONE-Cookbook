@@ -12,6 +12,22 @@ from crewai import LLM
 from common.exaone_env import get_disable_ssl_verify, load_exaone_env, openai_compat_kwargs
 
 
+def _patch_openai_ssl_clients(llm: LLM) -> None:
+    if not get_disable_ssl_verify():
+        return
+    import httpx
+    from openai import AsyncOpenAI, OpenAI
+
+    if not hasattr(llm, "_get_client_params"):
+        return
+    sync_params = llm._get_client_params()
+    sync_params["http_client"] = httpx.Client(verify=False)
+    llm._client = OpenAI(**sync_params)
+    async_params = llm._get_client_params()
+    async_params["http_client"] = httpx.AsyncClient(verify=False)
+    llm._async_client = AsyncOpenAI(**async_params)
+
+
 def configure_litellm_for_exaone() -> None:
     """
     (en) Align LiteLLM TLS with implementation `.env` (`DISABLE_SSL_VERIFY`, corporate CA).
@@ -41,7 +57,9 @@ def build_exaone_llm(**overrides: Any) -> LLM:
         "extra_body": {"chat_template_kwargs": {"enable_thinking": False}},
     }
     params.update(overrides)
-    return LLM(**params)
+    llm = LLM(**params)
+    _patch_openai_ssl_clients(llm)
+    return llm
 
 
 __all__ = ["build_exaone_llm", "configure_litellm_for_exaone"]

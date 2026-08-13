@@ -78,8 +78,8 @@ def main() -> int:
         hints.append("Install pnpm 10+ (upstream nanoclaw.sh can bootstrap)")
     if not report["opencode_vendor_ready"]:
         hints.append(
-            "Run implementations/nanoclaw/apply-opencode-from-providers.sh "
-            "(vendors into implementations/nanoclaw/vendor/ — does not touch submodule)"
+            "OpenCode vendor bundle missing — expected at "
+            "implementations/nanoclaw/vendor/opencode-from-providers/"
         )
     if report["opencode_provider_in_submodule"]:
         hints.append(

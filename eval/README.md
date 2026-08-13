@@ -150,6 +150,30 @@
 - **시스템 프롬프트 동일**, messages 직렬화 결과 동일.
 - **시드 / 호출 순서 고정** (가능한 한도 내, k회 반복 시 trial id만 분리).
 
+### 3.1.1 K-EXAONE 2.0 API kwargs (`preserve_thinking`)
+
+`exaone.llm.ExaoneAPIClient`를 거치지 않는 runner(τ-bench, Harbor upstream, Claw-Eval 등)는 **`eval/exaone_api_kwargs.py`** 로 동일한 `chat_template_kwargs`를 맞춥니다.
+
+| 벤치 유형 | `enable_thinking` | `preserve_thinking` |
+|-----------|-------------------|---------------------|
+| Agentic (τ-bench, Harbor, Claw-Eval) | `True` (기본) | **`True` (기본)** — 효과는 K-EXAONE 2.0+ |
+| 단발 QA · user simulator | `False` | `False` |
+
+```bash
+# .env — agentic eval 기본값 (payload에 항상 실림; 1.0은 preserve 무시)
+EXAONE_ENABLE_THINKING=1
+EXAONE_PRESERVE_THINKING=1
+EXAONE_EVAL_AGENT_TEMPERATURE=0.7
+```
+
+```python
+from eval.exaone_api_kwargs import build_extra_body
+
+extra_body = build_extra_body()  # agentic defaults: thinking + preserve
+```
+
+상세 가이드: [`docs/k_exaone_2.md`](../docs/k_exaone_2.md).
+
 ### 3.2 두 가지 호출 모드
 
 1. **Naive baseline** — `runners/naive_runner.py` *(예정)*

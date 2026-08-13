@@ -47,3 +47,16 @@ result = agent.run(AgentContext(query="..."), llm=llm)
 
 - No eager retrieval at `run()` — **ToolAgent (rag)** uses `rag.retrieve` in the enrich phase.  
 - One `ToolAgent` instance, merged catalog, enrich → evaluate → finalize.
+
+## K-EXAONE 2.0 · reasoning across turns
+
+`ToolAgent` enrich 루프는 **멀티턴 agentic** 워크플로입니다. `enable_thinking=True`와 `preserve_thinking=True`를 **명시**하세요 — **효과**는 K-EXAONE 2.0+에서 이전 턴 `reasoning_content`가 유지됩니다. 끄면 턴마다 reasoning이 리셋되어 도구 선택·계획이 흔들립니다.
+
+| 워크플로 | `enable_thinking` | `preserve_thinking` |
+|----------|-------------------|---------------------|
+| chitchat · 단발 Q&A | `False` | `False` |
+| **ToolAgent / agentic eval** | `True` | **`True`** (효과는 K-EXAONE 2.0+) |
+
+- **`exaone` 패키지**: `ExaoneGenerateOptions.enable_thinking`만 설정합니다. `preserve_thinking`은 `eval/exaone_api_kwargs.py` 또는 `extra_body`로 **명시**합니다 — payload에는 항상 실리며, 1.0 배포에서는 무시됩니다.
+
+→ [`docs/k_exaone_2.md`](../../docs/k_exaone_2.md)

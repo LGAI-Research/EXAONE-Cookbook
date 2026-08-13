@@ -3,6 +3,6 @@
 # (en) Optional deps for implementations/crewai only (isolated uv venv).
 # (kr) implementations/crewai 전용 선택 의존성(격리 uv venv).
 #
-# Tested with cookbook submodule pin submodules/crewai @ 2148c7e (2026-05-28).
+# Tested with cookbook submodule pin submodules/crewai @ 8df499d4 (tag v1.10.0.1; PyPI crewai==1.15.15, 2026-08-12).
 # Pip package may trail submodule; 0.203.x verified for run_crew.py / spike_llm.py.
 crewai>=0.130,<1

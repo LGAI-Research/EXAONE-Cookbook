@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 #
-# (en) NanoClaw + EXAONE demo helper — vendor OpenCode files and render env under
-#      implementations/nanoclaw/ only. Does NOT modify submodules/nanoclaw.
-# (kr) NanoClaw + EXAONE 데모 헬퍼 — implementations/nanoclaw/ 에만 vendor·env 생성.
-#      submodules/nanoclaw 는 수정하지 않는다.
+# (en) NanoClaw + EXAONE demo helper — render env under implementations/nanoclaw/.
+#      Vendor bundle is committed under vendor/; does NOT modify submodules/nanoclaw.
+# (kr) NanoClaw + EXAONE 데모 헬퍼 — implementations/nanoclaw/ env 렌더.
+#      vendor/ 는 repo에 포함; submodules/nanoclaw 는 수정하지 않는다.
 #
 # Usage (cookbook root):
 #   implementations/nanoclaw/run_cli_demo.sh
@@ -65,10 +65,7 @@ main() {
   log "Phase 0 — prerequisite smoke"
   "$UV_RUN" nanoclaw python scripts/check_env.py || true
 
-  log "Phase 1 — vendor OpenCode files (implementations/nanoclaw/vendor/ only)"
-  "$SCRIPT_DIR/apply-opencode-from-providers.sh"
-
-  log "Phase 2 — render EXAONE env (_out/nanoclaw.exaone.env)"
+  log "Phase 1 — render EXAONE env (_out/nanoclaw.exaone.env)"
   "$SCRIPT_DIR/scripts/sync_nanoclaw_env.sh"
 
   log "OneCLI registration hints:"
@@ -77,12 +74,12 @@ main() {
   write_steps_json
 
   if [[ "${RUN_LIVE_TURN:-0}" == "1" ]]; then
-    log "Phase 3 — EXAONE 1-turn proof (cookbook, no Docker)"
+    log "Phase 2 — EXAONE 1-turn proof (cookbook, no Docker)"
     "$UV_RUN" nanoclaw python run_exaone_turn.py
-    log "Phase 3b — validate _out/nanoclaw_turn.json"
+    log "Phase 2b — validate _out/nanoclaw_turn.json"
     "$UV_RUN" nanoclaw python eval_smoke.py
   else
-    log "Phase 3 — skip live turn (set RUN_LIVE_TURN=1 to call EXAONE API)"
+    log "Phase 2 — skip live turn (set RUN_LIVE_TURN=1 to call EXAONE API)"
   fi
 
   cat <<'EOF'

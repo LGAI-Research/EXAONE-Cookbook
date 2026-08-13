@@ -3,6 +3,7 @@
 
 - base_url: OpenAI-compatible base URL (e.g. https://api.friendli.ai/serverless/v1). The client appends /chat/completions automatically.
 - Single-agent flow (not multi-agent): reasoning (thinking) → tool calling → (repeat).
+- K-EXAONE 2.0 agentic multi-turn: set ``preserve_thinking`` explicitly via ``extra_body`` / ``eval/exaone_api_kwargs.py`` (not on ``ExaoneGenerateOptions``). Effective on 2.0+; 1.0 ignores. Chitchat / single-turn QA: both off.
 - Sampling: Hugging Face guidelines — temperature=1.0, top_p=0.95, do_sample=True; greedy decoding is forbidden.
 - Context: up to 256k tokens; staying within 128k is recommended.
 
@@ -10,6 +11,7 @@
 
 - base_url: OpenAI 호환 base URL(예: https://api.friendli.ai/serverless/v1)이며, /chat/completions 경로는 클라이언트가 자동으로 추가한다.
 - 멀티에이전트가 아닌 싱글 에이전트 흐름은 reasoning(thinking) → tool calling → (반복)이다.
+- K-EXAONE 2.0 agentic 멀티턴: ``preserve_thinking`` 은 ``extra_body`` / ``eval/exaone_api_kwargs.py`` 로 **명시**(``ExaoneGenerateOptions`` 필드 없음). 효과는 2.0+, 1.0은 무시. chitchat·단발 QA는 둘 다 off.
 - Sampling: Hugging Face 가이드라인에 따라 temperature=1.0, top_p=0.95, do_sample=True를 사용하며 greedy 디코딩은 금지한다.
 - Context: 최대 256k 토큰이며 128k 이내 유지를 권장한다.
 """
@@ -129,11 +131,16 @@ class ExaoneGenerateOptions:
     """
     (en) Generation options following Hugging Face guidelines (temperature=1.0, top_p=0.95, do_sample=True).
     enable_thinking: when True, use the single-agent reasoning (think) step.
+    Set False for chitchat / single-turn QA (lower latency). Agentic ToolAgent loops
+    should use True; on K-EXAONE 2.0+ also set preserve_thinking explicitly via extra_body
+    (see eval/exaone_api_kwargs.py — not a field on this dataclass). Sent on all models;
+    effective on 2.0+ only.
     tools: list of tool schemas; when set, tool calling is available after reasoning.
     Never use greedy decoding (temperature=0 or do_sample=False).
 
     (kr) 생성 옵션으로 Hugging Face 가이드라인(temperature=1.0, top_p=0.95, do_sample=True)을 따른다.
-    enable_thinking: True이면 싱글 에이전트의 reasoning(think) 단계를 사용한다.
+    enable_thinking: True이면 싱글 에이전트 reasoning(think). chitchat·단발 QA는 False.
+    agentic 멀티턴(v2)은 thinking on + preserve_thinking은 extra_body로 명시(eval glue). 효과는 2.0+.
     tools: 도구 스키마 리스트이며 있으면 reasoning 이후 tool calling이 가능하다.
     greedy(temperature=0 / do_sample=False)는 절대 사용하지 않는다.
     """

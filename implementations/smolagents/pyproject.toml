@@ -5,7 +5,7 @@ description = "EXAONE Proof Gallery — smolagents glue (isolated uv env)"
 requires-python = ">=3.10"
 dependencies = [
     "exaone",
-    "smolagents[openai]==1.25.0",
+    "smolagents[openai]==1.26.0",
 ]
 
 [tool.uv]

@@ -6,6 +6,7 @@
 |------|------|------------|
 | [eval.md](./eval.md) | `eval/` | 모델 품질을 **벤치마크**로 측정하는 스크립트 모음 |
 | [exaone.md](./exaone.md) | `exaone/` | **라이브러리** — LLM, 에이전트, RAG, 메모리, 관측 |
+| [k_exaone_2.md](./k_exaone_2.md) | API · eval | **K-EXAONE 2.0** — `enable_thinking` · **`preserve_thinking`** (agentic vs chitchat) |
 | [infrastructure.md](./infrastructure.md) | `infrastructure/` | **Postgres·임베딩** 등 인프라와 RAG/그래프 빌드 |
 | [recipes.md](./recipes.md) | `recipes/` | **Track 00–10 노트북** — bootstrap부터 캡스톤·eval까지 |
 | [implementations.md](./implementations.md) | `implementations/` · `submodules/` (직접 clone) | **Proof Gallery** — 선진 OSS 하니스 + EXAONE (고수용) |

@@ -31,6 +31,8 @@ result = agent.run(exaone.agents.AgentContext(query="..."), llm=client)
 
 스트리밍은 `for ev in agent.run_stream(ctx, llm=client):` → `exaone.agents.agent_event_to_sse(ev)` 흐름으로 확인합니다. 자세한 시작 패턴은 [`recipes/README.md` 4.1절](../README.md#41-코드-시작-패턴--import-exaone-facade)을 참고하세요.
 
+**K-EXAONE 2.0:** `ToolAgent` 루프는 **agentic 멀티턴**입니다. `enable_thinking=True`와 `preserve_thinking=True`를 **명시**하세요(환경 변수 또는 `eval/exaone_api_kwargs.py`). payload에는 항상 실리며, **효과**는 K-EXAONE 2.0+ — 1.0은 무시합니다. chitchat·단발 QA는 둘 다 `False`(Track 01). → [`docs/k_exaone_2.md`](../../docs/k_exaone_2.md)
+
 ---
 
 ## 노트북
