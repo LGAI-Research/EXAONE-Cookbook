@@ -1,0 +1,385 @@
+/* ==========================================================================
+   EXAONE Cookbook — design tokens
+   ========================================================================== */
+
+:root {
+  --vp-c-brand-1: #4f46e5;
+  --vp-c-brand-2: #6d5ef8;
+  --vp-c-brand-3: #8b7fff;
+  --vp-c-brand-soft: rgba(109, 94, 248, 0.14);
+
+  --ex-accent: #0f9d8f;
+  --ex-accent-soft: rgba(15, 157, 143, 0.12);
+  --ex-warn: #b45309;
+
+  --ex-surface: #ffffff;
+  --ex-surface-2: #f7f7fb;
+  --ex-border: rgba(20, 20, 43, 0.09);
+  --ex-border-strong: rgba(20, 20, 43, 0.16);
+  --ex-shadow: 0 1px 2px rgba(20, 20, 43, 0.04), 0 12px 32px -18px rgba(20, 20, 43, 0.28);
+  --ex-shadow-lift: 0 2px 4px rgba(20, 20, 43, 0.05), 0 24px 44px -22px rgba(46, 34, 140, 0.42);
+
+  --ex-grid-line: rgba(20, 20, 43, 0.055);
+  --ex-mesh-1: rgba(109, 94, 248, 0.18);
+  --ex-mesh-2: rgba(15, 157, 143, 0.14);
+
+  --ex-radius: 16px;
+  --ex-radius-sm: 10px;
+  --ex-max: 1200px;
+}
+
+.dark {
+  --vp-c-brand-1: #a79bff;
+  --vp-c-brand-2: #8b7fff;
+  --vp-c-brand-3: #6d5ef8;
+  --vp-c-brand-soft: rgba(139, 127, 255, 0.18);
+
+  --ex-accent: #43d6c3;
+  --ex-accent-soft: rgba(67, 214, 195, 0.14);
+  --ex-warn: #f0b429;
+
+  --ex-surface: #16161c;
+  --ex-surface-2: #1b1b23;
+  --ex-border: rgba(255, 255, 255, 0.09);
+  --ex-border-strong: rgba(255, 255, 255, 0.17);
+  --ex-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 16px 40px -22px rgba(0, 0, 0, 0.8);
+  --ex-shadow-lift: 0 2px 6px rgba(0, 0, 0, 0.36), 0 28px 52px -24px rgba(0, 0, 0, 0.9);
+
+  --ex-grid-line: rgba(255, 255, 255, 0.05);
+  --ex-mesh-1: rgba(109, 94, 248, 0.26);
+  --ex-mesh-2: rgba(15, 157, 143, 0.2);
+}
+
+/* ==========================================================================
+   Layout primitives
+   ========================================================================== */
+
+.ex-page {
+  width: 100%;
+}
+
+.ex-wrap {
+  max-width: var(--ex-max);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.ex-section {
+  padding: 72px 0;
+  border-top: 1px solid var(--ex-border);
+}
+
+.ex-section:first-of-type {
+  border-top: none;
+}
+
+.ex-section-head {
+  max-width: 720px;
+  margin-bottom: 36px;
+}
+
+.ex-eyebrow {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--vp-c-brand-1);
+  margin-bottom: 10px;
+}
+
+.ex-section-head h2 {
+  font-size: clamp(26px, 3.2vw, 36px);
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0 0 12px;
+  border: 0;
+  padding: 0;
+}
+
+.ex-section-head p {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--vp-c-text-2);
+}
+
+.ex-grid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
+
+.ex-grid-2 {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+}
+
+@media (max-width: 640px) {
+  .ex-section {
+    padding: 52px 0;
+  }
+  .ex-wrap {
+    padding: 0 18px;
+  }
+  .ex-grid,
+  .ex-grid-2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================================
+   Cards
+   ========================================================================== */
+
+.ex-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 22px;
+  border: 1px solid var(--ex-border);
+  border-radius: var(--ex-radius);
+  background: var(--ex-surface);
+  box-shadow: var(--ex-shadow);
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+}
+
+a.ex-card {
+  color: inherit;
+  text-decoration: none;
+  font-weight: inherit;
+}
+
+a.ex-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--ex-border-strong);
+  box-shadow: var(--ex-shadow-lift);
+}
+
+.ex-card h3 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  line-height: 1.35;
+  border: 0;
+  padding: 0;
+}
+
+.ex-card p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--vp-c-text-2);
+}
+
+.ex-card-icon {
+  font-size: 22px;
+  line-height: 1;
+}
+
+/* ==========================================================================
+   Badges and chips
+   ========================================================================== */
+
+.ex-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+
+.ex-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  border: 1px solid transparent;
+  background: var(--ex-surface-2);
+  color: var(--vp-c-text-2);
+}
+
+.ex-badge.is-beginner {
+  background: var(--ex-accent-soft);
+  color: var(--ex-accent);
+}
+
+.ex-badge.is-intermediate {
+  background: var(--vp-c-brand-soft);
+  color: var(--vp-c-brand-1);
+}
+
+.ex-badge.is-advanced {
+  background: rgba(180, 83, 9, 0.12);
+  color: var(--ex-warn);
+}
+
+.ex-badge.is-topic {
+  border-color: var(--ex-border);
+  background: transparent;
+}
+
+.ex-mono {
+  font-family: var(--vp-font-family-mono);
+  font-size: 12px;
+}
+
+.ex-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--ex-border);
+  background: var(--ex-surface-2);
+  font-family: var(--vp-font-family-mono);
+  font-size: 12px;
+  color: var(--vp-c-text-2);
+}
+
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+
+.ex-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 22px;
+  border-radius: 999px;
+  font-size: 14.5px;
+  font-weight: 600;
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+}
+
+.ex-btn:hover {
+  transform: translateY(-1px);
+}
+
+.ex-btn-primary {
+  background: linear-gradient(120deg, var(--vp-c-brand-2), var(--ex-accent));
+  color: #fff;
+}
+
+.dark .ex-btn-primary {
+  color: #0d0d12;
+}
+
+.ex-btn-ghost {
+  border-color: var(--ex-border-strong);
+  color: var(--vp-c-text-1);
+  background: var(--ex-surface);
+}
+
+.ex-btn-ghost:hover {
+  border-color: var(--vp-c-brand-1);
+  color: var(--vp-c-brand-1);
+}
+
+/* ==========================================================================
+   Misc
+   ========================================================================== */
+
+.ex-link-arrow {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--vp-c-brand-1);
+  text-decoration: none;
+}
+
+.ex-link-arrow::after {
+  content: ' →';
+}
+
+.ex-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ex-list li {
+  position: relative;
+  padding-left: 20px;
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: var(--vp-c-text-2);
+}
+
+.ex-list li::before {
+  content: '';
+  position: absolute;
+  left: 3px;
+  top: 9px;
+  width: 6px;
+  height: 6px;
+  border-radius: 2px;
+  background: var(--vp-c-brand-1);
+}
+
+.ex-list code,
+.ex-card code {
+  font-size: 0.86em;
+  padding: 2px 5px;
+  border-radius: 5px;
+  background: var(--vp-c-default-soft);
+}
+
+/* ==========================================================================
+   Full-bleed pages (frontmatter `layout: page`)
+   ========================================================================== */
+
+.ex-home .VPContent,
+.ex-sub .VPContent {
+  padding: 0;
+}
+
+.ex-home .VPPage,
+.ex-sub .VPPage {
+  padding: 0;
+}
+
+/* Content column below a PageHeader. */
+.ex-body {
+  padding-top: 46px;
+  padding-bottom: 88px;
+}
+
+/* Markdown prose embedded in a custom page. */
+.ex-note {
+  max-width: 820px;
+  margin-top: 56px;
+  padding-top: 40px;
+  border-top: 1px solid var(--ex-border);
+}
+
+.ex-note h2:first-child {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+}
+
+.bench-table-block {
+  margin-top: 8px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
