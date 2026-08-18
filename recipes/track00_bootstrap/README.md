@@ -24,7 +24,7 @@
 
 ## 코드 시작 패턴 (facade)
 
-저장소 루트에서 **한 번**: `pip install -r requirements.txt && pip install -e ./exaone`
+저장소 루트에서 **한 번**: `pip install -r requirements.txt && pip install -e .`
 
 ```python
 import exaone
