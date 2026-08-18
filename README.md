@@ -13,18 +13,25 @@ Product name: **EXAONE Cookbook**
 
 ## Quick Start
 
+Requires **Python 3.12+**. On macOS with Homebrew: `python3.12 -m venv .venv`.
+
 ```bash
 git clone <cookbook-url>
 cd <cookbook-root>
-python3 -m venv .venv && source .venv/bin/activate
+python3.12 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 pip install -e .
 cp .env.example .env   # EXAONE_API_KEY, EXAONE_BASE_URL, EXAONE_MODEL
 python -m ipykernel install --user --name exaone-cookbook --display-name "Python (exaone-cookbook)"
+python scripts/verify_recipes.py   # optional: smoke all Track 00–10
 jupyter notebook recipes/track00_bootstrap/
 ```
 
 With an API key, you can run **Track 00–01** right away (no Postgres or Docker required).
+
+**Corporate network / SSL:** if API or HuggingFace calls fail with `CERTIFICATE_VERIFY_FAILED`, add `DISABLE_SSL_VERIFY=1` to `.env` (last resort) or set `REQUESTS_CA_BUNDLE` — see [`PLAYBOOK.md`](PLAYBOOK.md) Part 8.
+
+> `requirements.txt` is generated from `pyproject.toml` / `uv.lock` (recipes + eval only; Proof Gallery deps are separate). Maintainers: `./scripts/regenerate_requirements.sh`.
 
 > For the Proof Gallery (`implementations/`), you must **clone upstream repos yourself**.  
 > Guide: [`implementations/README.md`](implementations/README.md) § Upstream clone.
@@ -127,8 +134,9 @@ pytest test/unit_exaone test/unit_eval test/unit_infrastructure test/unit_implem
 
 | Symptom | Action |
 |---------|--------|
+| `pip install -r requirements.txt` fails | Use Python **3.12+**; regenerate with `./scripts/regenerate_requirements.sh` |
 | `EXAONE_API_KEY` / 401 | Check `.env` key, URL, and model |
-| SSL (corporate network) | `REQUESTS_CA_BUNDLE` → [`PLAYBOOK.md`](PLAYBOOK.md) Part 8 |
+| SSL (corporate network) | `DISABLE_SSL_VERIFY=1` or `REQUESTS_CA_BUNDLE` → [`PLAYBOOK.md`](PLAYBOOK.md) Part 8 |
 | MCP spawn failure | `pip install -r requirements.txt`, `python recipes/track03_tools_and_mcp/mcp_demo/server.py` |
 | RAG connection refused | `infrastructure/setup` step2–4 |
 
@@ -161,18 +169,25 @@ Jupyter 레시피(Track 00–10), `exaone/` 라이브러리, RAG 인프라, 벤�
 
 ### 빠른 시작
 
+**Python 3.12+** 필요. Homebrew 예: `python3.12 -m venv .venv`.
+
 ```bash
 git clone <cookbook-url>
 cd <cookbook-root>
-python3 -m venv .venv && source .venv/bin/activate
+python3.12 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 pip install -e .
 cp .env.example .env   # EXAONE_API_KEY, EXAONE_BASE_URL, EXAONE_MODEL
 python -m ipykernel install --user --name exaone-cookbook --display-name "Python (exaone-cookbook)"
+python scripts/verify_recipes.py   # 선택: Track 00–10 스모크
 jupyter notebook recipes/track00_bootstrap/
 ```
 
 API 키만 있으면 **Track 00–01**부터 바로 실행할 수 있습니다 (Postgres·Docker 불필요).
+
+**회사망 SSL:** API·HuggingFace 호출이 `CERTIFICATE_VERIFY_FAILED` 이면 `.env` 에 `DISABLE_SSL_VERIFY=1`(최후 수단) 또는 `REQUESTS_CA_BUNDLE` — [`PLAYBOOK.md`](PLAYBOOK.md) Part 8.
+
+> `requirements.txt` 는 `pyproject.toml` / `uv.lock` 에서 생성됩니다(recipes+eval; Proof Gallery 의존성 제외). maintainer: `./scripts/regenerate_requirements.sh`.
 
 > Proof Gallery(`implementations/`)를 쓸 때는 upstream을 **직접 clone** 해야 합니다.  
 > 가이드: [`implementations/README.md`](implementations/README.md) § Upstream clone.
@@ -275,8 +290,9 @@ pytest test/unit_exaone test/unit_eval test/unit_infrastructure test/unit_implem
 
 | 증상 | 조치 |
 |------|------|
+| `pip install -r requirements.txt` 실패 | Python **3.12+** 확인; `./scripts/regenerate_requirements.sh` 로 재생성 |
 | `EXAONE_API_KEY` / 401 | `.env` 키·URL·모델 확인 |
-| SSL (회사망) | `REQUESTS_CA_BUNDLE` → [`PLAYBOOK.md`](PLAYBOOK.md) Part 8 |
+| SSL (회사망) | `DISABLE_SSL_VERIFY=1` 또는 `REQUESTS_CA_BUNDLE` → [`PLAYBOOK.md`](PLAYBOOK.md) Part 8 |
 | MCP spawn 실패 | `pip install -r requirements.txt`, `python recipes/track03_tools_and_mcp/mcp_demo/server.py` |
 | RAG connection refused | `infrastructure/setup` step2~4 |
 

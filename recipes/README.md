@@ -7,9 +7,9 @@ Jupyter 노트북으로 EXAONE 에이전트를 단계별로 학습합니다. **�
 ## 한 번만 설치 (저장소 루트)
 
 ```bash
-python3 -m venv .venv && source .venv/bin/activate
+python3.12 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
-pip install -e ./exaone
+pip install -e .
 cp .env.example .env
 python -m ipykernel install --user --name exaone-cookbook --display-name "Python (exaone-cookbook)"
 ```
