@@ -461,9 +461,14 @@ def cmd_live_smoke(args: argparse.Namespace) -> int:
 def main(argv: list[str] | None = None) -> int:
     # (en) Windows consoles may not encode every symbol we print (✓, ⚠, →) — never crash on that.
     # (kr) Windows 콘솔은 일부 기호(✓, ⚠, →)를 인코딩하지 못할 수 있다 — 그걸로 죽지 않게 한다.
+    # (en) Redirected output (CI logs, `> file`) is written as UTF-8 instead of the ANSI codepage.
+    # (kr) 리다이렉트된 출력(CI 로그, `> file`)은 ANSI 코드페이지 대신 UTF-8 로 쓴다.
     for stream in (sys.stdout, sys.stderr):
         if hasattr(stream, "reconfigure"):
-            stream.reconfigure(errors="replace")
+            if stream.isatty():
+                stream.reconfigure(errors="replace")
+            else:
+                stream.reconfigure(encoding="utf-8", errors="replace")
 
     argv = list(sys.argv[1:] if argv is None else argv)
     # (en) uv-run / hermes forward everything after the subcommand verbatim (no argparse on it).

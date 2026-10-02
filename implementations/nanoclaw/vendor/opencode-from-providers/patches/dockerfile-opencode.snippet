@@ -1,0 +1,6 @@
+ARG OPENCODE_VERSION=1.18.16
+
+# (en) Append after claude-code global install in container/Dockerfile:
+# (kr) container/Dockerfile 의 claude-code global install 다음에 추가:
+RUN --mount=type=cache,target=/root/.cache/pnpm \
+    pnpm install -g "opencode-ai@${OPENCODE_VERSION}"

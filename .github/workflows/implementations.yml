@@ -37,11 +37,11 @@ jobs:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       # (en) No python-version here: an inherited UV_PYTHON would override the hermes upstream pin.
       # (kr) python-version 미지정: UV_PYTHON 이 상속되면 hermes upstream 의 Python 고정을 덮어쓴다.
-      - uses: astral-sh/setup-uv@v6
+      - uses: astral-sh/setup-uv@v7
 
       - name: pytest test/unit_implementations
         run: uv run --no-project --isolated --with pytest --with pytest-timeout --with-editable ./exaone python -m pytest -p no:cacheprovider test/unit_implementations
@@ -55,9 +55,9 @@ jobs:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: astral-sh/setup-uv@v6
+      - uses: astral-sh/setup-uv@v7
 
       - name: Dummy impl .env (no API calls are made)
         shell: bash
