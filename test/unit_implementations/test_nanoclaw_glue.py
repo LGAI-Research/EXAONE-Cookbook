@@ -28,7 +28,9 @@ def test_sync_nanoclaw_env_dry_run(impl_env_dir) -> None:
     env["DRY_RUN"] = "1"
 
     proc = subprocess.run(
-        ["bash", str(NANOCLAW_IMPL / "scripts" / "sync_nanoclaw_env.sh")],
+        [str(NANOCLAW_IMPL / "scripts" / "sync_nanoclaw_env.cmd")]
+        if os.name == "nt"
+        else ["bash", str(NANOCLAW_IMPL / "scripts" / "sync_nanoclaw_env.sh")],
         cwd=str(REPO_ROOT),
         env=env,
         capture_output=True,

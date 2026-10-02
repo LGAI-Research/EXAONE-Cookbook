@@ -1,0 +1,129 @@
+# (en) Proof Gallery entrypoints on Linux (.sh) and Windows (.cmd from PowerShell and cmd) — no EXAONE API calls.
+# (kr) Proof Gallery 진입점을 Linux(.sh)·Windows(PowerShell·cmd 의 .cmd)에서 검증 — EXAONE API 호출 없음.
+name: Implementations
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'implementations/**'
+      - 'test/unit_implementations/**'
+      - 'exaone/**'
+      - '.gitattributes'
+      - '.github/workflows/implementations.yml'
+  pull_request:
+    paths:
+      - 'implementations/**'
+      - 'test/unit_implementations/**'
+      - 'exaone/**'
+      - '.gitattributes'
+      - '.github/workflows/implementations.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  unit:
+    name: unit tests (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      # (en) No python-version here: an inherited UV_PYTHON would override the hermes upstream pin.
+      # (kr) python-version 미지정: UV_PYTHON 이 상속되면 hermes upstream 의 Python 고정을 덮어쓴다.
+      - uses: astral-sh/setup-uv@v6
+
+      - name: pytest test/unit_implementations
+        run: uv run --no-project --isolated --with pytest --with pytest-timeout --with-editable ./exaone python -m pytest -p no:cacheprovider test/unit_implementations
+
+  demos:
+    name: demos (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v6
+
+      - name: Dummy impl .env (no API calls are made)
+        shell: bash
+        run: |
+          for r in smolagents nanoclaw hermes-agent; do
+            printf 'EXAONE_BASE_URL=https://example.com/v1\nEXAONE_API_KEY=ci-dummy\nEXAONE_MODEL=ci-model\n' > "implementations/$r/.env"
+          done
+
+      - name: Clone Hermes upstream (pinned, see implementations/README.md)
+        shell: bash
+        run: git clone --depth 1 --branch v2026.8.3 https://github.com/NousResearch/hermes-agent.git submodules/hermes-agent
+
+      # ---------------------------------------------------------------- Windows: PowerShell + cmd
+
+      - name: uv_run.cmd usage exits 2 (PowerShell)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          implementations\uv_run.cmd
+          if ($LASTEXITCODE -ne 2) { throw "expected exit 2, got $LASTEXITCODE" }
+          exit 0
+
+      - name: smolagents demo (PowerShell)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $PSNativeCommandUseErrorActionPreference = $true
+          implementations\smolagents\run_cli_demo.cmd
+
+      - name: nanoclaw demo (cmd)
+        if: runner.os == 'Windows'
+        shell: cmd
+        run: implementations\nanoclaw\run_cli_demo.cmd
+
+      - name: hermes render + doctor (PowerShell)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $PSNativeCommandUseErrorActionPreference = $true
+          implementations\uv_run.cmd hermes-agent python scripts/hermes_glue.py render
+          implementations\hermes-agent\run_hermes.cmd doctor
+
+      - name: hermes doctor (cmd)
+        if: runner.os == 'Windows'
+        shell: cmd
+        run: implementations\hermes-agent\run_hermes.cmd doctor
+
+      # ---------------------------------------------------------------- Linux: bash
+
+      - name: uv_run.sh usage exits 2
+        if: runner.os != 'Windows'
+        shell: bash
+        run: |
+          rc=0; ./implementations/uv_run.sh || rc=$?
+          [[ "$rc" -eq 2 ]] || { echo "expected exit 2, got $rc"; exit 1; }
+
+      - name: smolagents + nanoclaw demos
+        if: runner.os != 'Windows'
+        shell: bash
+        run: |
+          ./implementations/smolagents/run_cli_demo.sh
+          ./implementations/nanoclaw/run_cli_demo.sh
+
+      - name: hermes render + doctor
+        if: runner.os != 'Windows'
+        shell: bash
+        run: |
+          ./implementations/uv_run.sh hermes-agent python scripts/hermes_glue.py render
+          ./implementations/hermes-agent/scripts/run_hermes.sh doctor

@@ -1,14 +1,15 @@
 """implementations/uv_run.sh router smoke (no API, no full uv sync required)."""
 from __future__ import annotations
 
+import os
 import subprocess
 from pathlib import Path
 
 
 def _run_uv_run(repo_root: Path, *args: str) -> subprocess.CompletedProcess[str]:
-    # (en) Invoke uv_run.sh from cookbook root.
-    # (kr) cookbook 루트에서 uv_run.sh 를 호출한다.
-    script = repo_root / "implementations" / "uv_run.sh"
+    # (en) Invoke uv_run.sh (Windows: uv_run.cmd) from cookbook root.
+    # (kr) cookbook 루트에서 uv_run.sh(Windows: uv_run.cmd)를 호출한다.
+    script = repo_root / "implementations" / ("uv_run.cmd" if os.name == "nt" else "uv_run.sh")
     return subprocess.run(
         [str(script), *args],
         cwd=str(repo_root),
