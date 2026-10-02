@@ -29,7 +29,15 @@ source "$SCRIPT_DIR/scripts/env.sh"
 if ! command -v rg >/dev/null 2>&1 && command -v brew >/dev/null 2>&1; then
   brew install ripgrep || true
 fi
-"$SCRIPT_DIR/scripts/run_hermes.sh" doctor || true
+# (en) doctor ⚠ lines are fine, but a non-zero exit (e.g. Hermes failed to start) must not print "smoke OK".
+# (kr) doctor 의 ⚠ 는 무시해도 되지만, 비정상 종료(Hermes 기동 실패 등)면 "smoke OK" 를 찍지 않는다.
+doctor_rc=0
+"$SCRIPT_DIR/scripts/run_hermes.sh" doctor || doctor_rc=$?
+if [[ "$doctor_rc" -ne 0 ]]; then
+  echo
+  echo "== smoke FAILED: hermes doctor exited with ${doctor_rc} (see the error above) ==" >&2
+  exit "$doctor_rc"
+fi
 
 cat <<'EOF'
 

@@ -36,7 +36,9 @@ PY
 
 main() {
   local exaone_block base_url model opencode_model
-  exaone_block="$(read_impl_exaone)"
+  # (en) Strip CR — Windows python prints CRLF.
+  # (kr) CR 제거 — Windows python 은 CRLF 로 출력한다.
+  exaone_block="$(read_impl_exaone | tr -d '\r')"
   base_url="$(printf '%s\n' "$exaone_block" | sed -n '1p')"
   model="$(printf '%s\n' "$exaone_block" | sed -n '2p')"
   opencode_model="$(printf '%s\n' "$exaone_block" | sed -n '3p')"

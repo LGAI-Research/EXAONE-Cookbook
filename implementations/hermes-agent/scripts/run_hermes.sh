@@ -10,7 +10,9 @@ SUBMODULE="${ROOT}/submodules/hermes-agent"
 _UV_RUN="${ROOT}/implementations/uv_run.sh"
 _GLUE="${SCRIPT_DIR}/hermes_glue.py"
 
-eval "$("$_UV_RUN" hermes-agent python "${_GLUE}" export-shell)"
+# (en) tr -d '\r': Windows python prints CRLF, which would leak '\r' into values under Git Bash.
+# (kr) tr -d '\r': Windows python 은 CRLF 로 출력해 Git Bash 에서 값 끝에 '\r' 이 붙는다.
+eval "$("$_UV_RUN" hermes-agent python "${_GLUE}" export-shell | tr -d '\r')"
 
 if [[ ! -d "${SUBMODULE}" ]]; then
   echo "missing upstream: ${SUBMODULE}" >&2

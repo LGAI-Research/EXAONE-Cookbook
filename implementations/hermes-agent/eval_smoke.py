@@ -13,6 +13,7 @@ from __future__ import annotations
 import argparse
 import importlib
 import json
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -55,14 +56,12 @@ def load_smoke_json(path: Path) -> dict:
 
 
 def run_ping_e2e() -> int:
-    uv_run = repo_root() / "implementations" / "uv_run.sh"
-    cmd = [str(uv_run), "hermes-agent", "python", str(GLUE), "ping"]
-    proc = subprocess.run(
-        cmd,
-        cwd=str(repo_root()),
-        env={**dict(__import__("os").environ), "EXAONE_IMPL_DIR": str(impl_dir())},
-        check=False,
-    )
+    # (en) Reuse this impl venv's python directly — exec'ing uv_run.sh from Python fails on Windows.
+    # (kr) 현재 impl venv 의 python 을 그대로 쓴다 — Windows 에서는 Python 이 uv_run.sh 를 직접 실행하지 못한다.
+    impl = Path(__file__).resolve().parent
+    env = {**os.environ, "EXAONE_IMPL_DIR": str(impl), "PYTHONPATH": str(impl.parent)}
+    cmd = [sys.executable, str(GLUE), "ping"]
+    proc = subprocess.run(cmd, cwd=str(impl), env=env, check=False)
     return proc.returncode
 
 
