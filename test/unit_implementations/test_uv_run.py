@@ -15,6 +15,7 @@ def _run_uv_run(repo_root: Path, *args: str) -> subprocess.CompletedProcess[str]
         cwd=str(repo_root),
         capture_output=True,
         text=True,
+        encoding="utf-8",
         check=False,
     )
 
@@ -46,6 +47,7 @@ def test_gallery_uv_run_usage_without_bash(repo_root: Path) -> None:
         cwd=str(repo_root),
         capture_output=True,
         text=True,
+        encoding="utf-8",
         check=False,
     )
     assert proc.returncode == 2

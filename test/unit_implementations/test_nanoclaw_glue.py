@@ -35,6 +35,9 @@ def test_sync_nanoclaw_env_dry_run(impl_env_dir) -> None:
         env=env,
         capture_output=True,
         text=True,
+        # (en) gallery.py writes redirected output as UTF-8 on every OS.
+        # (kr) gallery.py 는 리다이렉트 출력을 모든 OS 에서 UTF-8 로 쓴다.
+        encoding="utf-8",
         check=False,
     )
     assert proc.returncode == 0, proc.stderr
