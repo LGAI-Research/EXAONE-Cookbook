@@ -10,7 +10,8 @@
 | **Upstream 소스 (수정 금지)** | `submodules/<repo-name>/` — **직접 clone** (레포에 미포함) |
 | **Cookbook 접착 코드만** | `implementations/<repo-name>/` |
 | **공통 env 헬퍼** | `implementations/common/exaone_env.py` |
-| **격리 실행 래퍼** | [`uv_run.sh`](./uv_run.sh) |
+| **격리 실행 래퍼** | [`uv_run.sh`](./uv_run.sh) · Windows [`uv_run.cmd`](./uv_run.cmd) |
+| **데모 로직 (크로스플랫폼)** | [`gallery.py`](./gallery.py) — `.sh`·`.cmd` 는 모두 이 파일을 부르는 래퍼 |
 
 ## Upstream clone (필수 — git submodule 아님)
 
@@ -78,6 +79,29 @@ implementations/hermes-agent/scripts/run_hermes.sh
 
 `uv` 미설치: https://docs.astral.sh/uv/getting-started/installation/
 
+### Windows (PowerShell / cmd)
+
+모든 `.sh` 진입점 옆에 같은 이름의 `.cmd` 가 있습니다. cookbook 루트에서 `/` 대신 `\`, `.sh` 대신 `.cmd` 로 실행하세요. (Git Bash 에서는 위의 `.sh` 를 그대로 써도 됩니다.)
+
+```powershell
+copy implementations\smolagents\.env.example implementations\smolagents\.env   # EXAONE_* 채우기
+uv sync --project implementations/smolagents
+implementations\uv_run.cmd smolagents python scripts/check_env.py
+implementations\smolagents\run_cli_demo.cmd --live
+
+implementations\hermes-agent\run_cli_demo.cmd
+implementations\hermes-agent\run_hermes.cmd
+```
+
+| macOS / Linux / Git Bash | Windows PowerShell / cmd |
+|---|---|
+| `./implementations/uv_run.sh <repo> ...` | `implementations\uv_run.cmd <repo> ...` |
+| `implementations/<repo>/run_cli_demo.sh` | `implementations\<repo>\run_cli_demo.cmd` |
+| `implementations/hermes-agent/scripts/run_hermes.sh` | `implementations\hermes-agent\run_hermes.cmd` |
+| `implementations/run_live_smoke.sh` | `implementations\run_live_smoke.cmd` |
+| `RUN_LIVE_TURN=1 ...` / `RUN_LIVE_CREW=1 ...` | `--live` / `--crew` 옵션 (모든 OS 공통) |
+| `source implementations/hermes-agent/scripts/env.sh` | 불필요 — `run_hermes.cmd` 가 env 를 직접 설정 |
+
 ## 네이밍 규칙 (고정)
 
 - 폴더명 = GitHub **repository 이름**: `hermes-agent`, `browser-use`, `nanoclaw`, `crewai`, `smolagents`
@@ -125,6 +149,9 @@ RUN_LIVE_TURN=1 implementations/run_live_smoke.sh --repo smolagents
 
 # CrewAI 3-agent crew까지 (느림)
 RUN_LIVE_TURN=1 RUN_LIVE_CREW=1 implementations/run_live_smoke.sh --repo crewai
+
+# 환경변수 대신 옵션도 가능 (Windows: implementations\run_live_smoke.cmd --live --repo crewai --crew)
+implementations/run_live_smoke.sh --live --repo crewai --crew
 ```
 
 | Repo | 오케스트레이터 | 검증 스크립트 | 라이브 산출물 |

@@ -1,3 +1,6 @@
 # (en) Shell scripts must stay LF — CRLF checkouts (Windows core.autocrlf=true) break bash with $'\r'.
 # (kr) 셸 스크립트는 LF 고정 — Windows autocrlf 로 CRLF 체크아웃되면 bash 가 $'\r' 에러를 낸다.
 *.sh text eol=lf
+# (en) Windows batch wrappers stay CRLF.
+# (kr) Windows 배치 래퍼는 CRLF 고정.
+*.cmd text eol=crlf

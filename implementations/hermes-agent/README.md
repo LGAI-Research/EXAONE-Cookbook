@@ -18,6 +18,14 @@ source implementations/hermes-agent/scripts/env.sh       # 셸 env
 implementations/hermes-agent/scripts/run_hermes.sh       # 대화형 Hermes
 ```
 
+Windows PowerShell / cmd (cookbook 루트):
+
+```powershell
+copy implementations\hermes-agent\.env.example implementations\hermes-agent\.env
+implementations\hermes-agent\run_cli_demo.cmd      # 스모크
+implementations\hermes-agent\run_hermes.cmd        # 대화형 Hermes (env 는 자동 설정 — env.sh 불필요)
+```
+
 세션: `/model custom:exaone/<EXAONE_MODEL>`
 
 ## 파일 구조
@@ -30,6 +38,7 @@ implementations/hermes-agent/scripts/run_hermes.sh       # 대화형 Hermes
 | `scripts/env.sh` | `source` → `HERMES_HOME` + `EXAONE_*` export |
 | `scripts/run_hermes.sh` | Hermes 실행 (SSL 패치 포함); **CWD=`implementations/hermes-agent`** |
 | `run_cli_demo.sh` | 비대화형 스모크 |
+| `run_cli_demo.cmd` · `run_hermes.cmd` | Windows(PowerShell/cmd) 진입점 — 로직은 [`../gallery.py`](../gallery.py) |
 | `skills/` | 선택 cookbook 스킬 |
 
 ## `hermes_glue.py` 명령
