@@ -42,6 +42,14 @@ SUBMODULE = repo_root() / "submodules" / "hermes-agent"
 _SSL_PATCHED = False
 
 
+def _venv_hermes() -> Path:
+    # (en) uv venv layout: .venv/bin/hermes on Linux/macOS, .venv/Scripts/hermes.exe on Windows.
+    # (kr) uv venv 경로: Linux/macOS 는 .venv/bin/hermes, Windows 는 .venv/Scripts/hermes.exe.
+    if os.name == "nt":
+        return SUBMODULE / ".venv" / "Scripts" / "hermes.exe"
+    return SUBMODULE / ".venv" / "bin" / "hermes"
+
+
 def _hermes_home() -> Path:
     # (en) HERMES_HOME from env or repo-local .hermes default.
     # (kr) HERMES_HOME — env 또는 repo 로컬 .hermes 기본값.
@@ -83,7 +91,7 @@ def cmd_check(_: argparse.Namespace) -> int:
     else:
         for candidate in (
             Path.home() / ".local" / "bin" / "hermes",
-            SUBMODULE / ".venv" / "bin" / "hermes",
+            _venv_hermes(),
         ):
             if candidate.is_file() and os.access(candidate, os.X_OK):
                 hermes_cli = str(candidate)
@@ -294,10 +302,15 @@ def cmd_export_shell(_: argparse.Namespace) -> int:
 def cmd_link_cli(_: argparse.Namespace) -> int:
     # (en) Symlink submodule venv hermes → ~/.local/bin/hermes (doctor convenience).
     # (kr) submodule venv hermes → ~/.local/bin/hermes symlink(doctor 편의).
-    venv_hermes = SUBMODULE / ".venv" / "bin" / "hermes"
+    venv_hermes = _venv_hermes()
     link_dir = Path.home() / ".local" / "bin"
     link = link_dir / "hermes"
     if not venv_hermes.is_file():
+        return 0
+    if os.name == "nt":
+        # (en) Symlinks need admin/Developer Mode on Windows; run_hermes.sh calls the venv directly anyway.
+        # (kr) Windows 는 symlink 에 관리자/개발자 모드가 필요 — run_hermes.sh 가 venv 를 직접 호출하므로 건너뛴다.
+        print(f"skip link-cli on Windows (use {venv_hermes})")
         return 0
     link_dir.mkdir(parents=True, exist_ok=True)
     if link.is_symlink() and os.readlink(link) == str(venv_hermes):
