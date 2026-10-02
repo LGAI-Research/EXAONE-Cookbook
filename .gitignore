@@ -24,7 +24,6 @@ _dataset/
 _out/
 recipes/**/_out/
 implementations/**/_out/
-implementations/nanoclaw/vendor/
 implementations/hermes-agent/.hermes/
 eval/reports/
 
