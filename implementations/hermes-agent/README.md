@@ -69,7 +69,7 @@ Hermes 는 메인 호출 외에 부가 LLM 요청(제목 생성, 10턴마다 mem
 
 - `hermes_glue.py render` 가 만드는 `config.yaml` 은 `auxiliary.title_generation.enabled: false` — 세션마다 붙던 제목 요청을 제거한다. 제목은 `/title` 로 수동 지정.
 - **`fallback_providers` 를 추가하지 말 것.** Hermes 는 429 를 받으면 fallback 이 있을 때 재시도 없이 즉시 다른 모델로 넘어간다. fallback 이 없으면 `Retry-After`(없으면 ~2s backoff) 후 EXAONE 로 재시도하므로 1 req/s 를 넘기지 않는다.
-- 그래도 간헐적 429 가 나면 `config.yaml` 에 `agent: {api_max_retries: 5}` 로 재시도 횟수를 늘린다.
+- `render` 는 `agent.api_max_retries: 5` 도 넣는다 (Hermes 기본 3). 429 에 `Retry-After` 가 보장되지 않으므로 클라이언트 backoff 재시도에 의존한다.
 
 **키:** `implementations/hermes-agent/.env` → `hermes_glue.py render` 가 `.hermes/.env` 브릿지.
 

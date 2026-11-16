@@ -160,6 +160,11 @@ model:
 auxiliary:
   title_generation:
     enabled: false
+
+# (en) More headroom for 429s; Retry-After is not guaranteed, so Hermes falls back to ~2s backoff.
+# (kr) 429 재시도 여유. Retry-After 가 보장되지 않아 Hermes 는 ~2s backoff 로 재시도한다.
+agent:
+  api_max_retries: 5
 """
 
 
