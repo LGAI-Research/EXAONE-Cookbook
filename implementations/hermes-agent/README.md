@@ -55,12 +55,21 @@ eval "$(./implementations/uv_run.sh hermes-agent python scripts/hermes_glue.py e
 | 증상 | 조치 |
 |------|------|
 | `APIConnectionError` / SSL | `.env` 에 `DISABLE_SSL_VERIFY=1` — **`run_hermes.sh`만** 사용 (직접 `hermes` X) |
-| `Auxiliary title generation failed` | 부가 LLM(제목) — 대화는 OK, `/title` 수동 또는 `run_hermes.sh` 재시작 |
+| `Auxiliary title generation failed` | 부가 LLM(제목) — 대화는 OK, `/title` 수동 또는 `run_hermes.sh` 재시작. `render` 는 자동 제목을 끈다 (아래 rate limit) |
+| 429 · `x-second-rate-limit: 1` | 아래 **초당 rate limit** 참고 |
 | ping OK · Hermes 실패 | `source scripts/env.sh` 후 `run_hermes.sh` |
 | `unknown` 상태바 | `env.sh` source → `/model custom:exaone/...` |
 | doctor ⚠ 많음 | EXAONE-only 데모면 OAuth/web/discord **무시** |
 | 빈 assistant content | reasoning-only — [`PLAYBOOK.md`](../../PLAYBOOK.md) §6.3.1 |
 | 401/403 | `.env` 키·URL·크레딧 확인 |
+
+### 초당 rate limit (K-EXAONE 무료 API: 1 req/s)
+
+Hermes 는 메인 호출 외에 부가 LLM 요청(제목 생성, 10턴마다 memory/skill review 등)을 **동시에** 보낸다. 초당 1건 한도에서는 두 번째 요청이 바로 429 를 받는다.
+
+- `hermes_glue.py render` 가 만드는 `config.yaml` 은 `auxiliary.title_generation.enabled: false` — 세션마다 붙던 제목 요청을 제거한다. 제목은 `/title` 로 수동 지정.
+- **`fallback_providers` 를 추가하지 말 것.** Hermes 는 429 를 받으면 fallback 이 있을 때 재시도 없이 즉시 다른 모델로 넘어간다. fallback 이 없으면 `Retry-After`(없으면 ~2s backoff) 후 EXAONE 로 재시도하므로 1 req/s 를 넘기지 않는다.
+- 그래도 간헐적 429 가 나면 `config.yaml` 에 `agent: {api_max_retries: 5}` 로 재시도 횟수를 늘린다.
 
 **키:** `implementations/hermes-agent/.env` → `hermes_glue.py render` 가 `.hermes/.env` 브릿지.
 

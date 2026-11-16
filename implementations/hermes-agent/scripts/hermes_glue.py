@@ -153,6 +153,13 @@ custom_providers:
 model:
   default: "{model}"
   provider: custom:exaone
+
+# (en) Auto-title fires a second request right after the first reply of every session,
+#      which trips per-second rate limits (K-EXAONE free tier: 1 req/s). Use /title instead.
+# (kr) 자동 제목은 세션 첫 응답 직후 두 번째 요청을 보내 초당 한도(K-EXAONE 무료: 1 req/s)에 걸린다. /title 사용.
+auxiliary:
+  title_generation:
+    enabled: false
 """
 
 
